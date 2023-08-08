@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -11,27 +12,27 @@ import type { InternalTracker } from './InternalTracker';
  */
 export type EditRepoOption = {
     /**
-     * either `true` to allow mark pr as merged manually, or `false` to prevent it. `has_pull_requests` must be `true`.
+     * either `true` to allow mark pr as merged manually, or `false` to prevent it.
      */
     allow_manual_merge?: boolean;
     /**
-     * either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits. `has_pull_requests` must be `true`.
+     * either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
      */
     allow_merge_commits?: boolean;
     /**
-     * either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging. `has_pull_requests` must be `true`.
+     * either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
      */
     allow_rebase?: boolean;
     /**
-     * either `true` to allow rebase with explicit merge commits (--no-ff), or `false` to prevent rebase with explicit merge commits. `has_pull_requests` must be `true`.
+     * either `true` to allow rebase with explicit merge commits (--no-ff), or `false` to prevent rebase with explicit merge commits.
      */
     allow_rebase_explicit?: boolean;
     /**
-     * either `true` to allow updating pull request branch by rebase, or `false` to prevent it. `has_pull_requests` must be `true`.
+     * either `true` to allow updating pull request branch by rebase, or `false` to prevent it.
      */
     allow_rebase_update?: boolean;
     /**
-     * either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging. `has_pull_requests` must be `true`.
+     * either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
      */
     allow_squash_merge?: boolean;
     /**
@@ -39,9 +40,13 @@ export type EditRepoOption = {
      */
     archived?: boolean;
     /**
-     * either `true` to enable AutodetectManualMerge, or `false` to prevent it. `has_pull_requests` must be `true`, Note: In some special cases, misjudgments can occur.
+     * either `true` to enable AutodetectManualMerge, or `false` to prevent it. Note: In some special cases, misjudgments can occur.
      */
     autodetect_manual_merge?: boolean;
+    /**
+     * set to `true` to allow edits from maintainers by default
+     */
+    default_allow_maintainer_edit?: boolean;
     /**
      * sets the default branch for this repository.
      */
@@ -51,7 +56,7 @@ export type EditRepoOption = {
      */
     default_delete_branch_after_merge?: boolean;
     /**
-     * set to a merge style to be used by this repository: "merge", "rebase", "rebase-merge", or "squash". `has_pull_requests` must be `true`.
+     * set to a merge style to be used by this repository: "merge", "rebase", "rebase-merge", or "squash".
      */
     default_merge_style?: string;
     /**
@@ -65,9 +70,17 @@ export type EditRepoOption = {
     external_tracker?: ExternalTracker;
     external_wiki?: ExternalWiki;
     /**
+     * either `true` to enable actions unit, or `false` to disable them.
+     */
+    has_actions?: boolean;
+    /**
      * either `true` to enable issues for this repository or `false` to disable them.
      */
     has_issues?: boolean;
+    /**
+     * either `true` to enable packages unit, or `false` to disable them.
+     */
+    has_packages?: boolean;
     /**
      * either `true` to enable project unit, or `false` to disable them.
      */
@@ -77,11 +90,15 @@ export type EditRepoOption = {
      */
     has_pull_requests?: boolean;
     /**
+     * either `true` to enable releases unit, or `false` to disable them.
+     */
+    has_releases?: boolean;
+    /**
      * either `true` to enable the wiki for this repository or `false` to disable it.
      */
     has_wiki?: boolean;
     /**
-     * either `true` to ignore whitespace for conflicts, or `false` to not ignore whitespace. `has_pull_requests` must be `true`.
+     * either `true` to ignore whitespace for conflicts, or `false` to not ignore whitespace.
      */
     ignore_whitespace_conflicts?: boolean;
     internal_tracker?: InternalTracker;

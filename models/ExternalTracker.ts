@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -11,7 +12,11 @@ export type ExternalTracker = {
      */
     external_tracker_format?: string;
     /**
-     * External Issue Tracker Number Format, either `numeric` or `alphanumeric`
+     * External Issue Tracker issue regular expression
+     */
+    external_tracker_regexp_pattern?: string;
+    /**
+     * External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp`
      */
     external_tracker_style?: string;
     /**

@@ -1,11 +1,15 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Activity } from '../models/Activity';
 import type { AddCollaboratorOption } from '../models/AddCollaboratorOption';
 import type { AnnotatedTag } from '../models/AnnotatedTag';
 import type { Attachment } from '../models/Attachment';
 import type { Branch } from '../models/Branch';
 import type { BranchProtection } from '../models/BranchProtection';
+import type { ChangedFile } from '../models/ChangedFile';
+import type { ChangeFilesOptions } from '../models/ChangeFilesOptions';
 import type { CombinedStatus } from '../models/CombinedStatus';
 import type { Commit } from '../models/Commit';
 import type { CommitStatus } from '../models/CommitStatus';
@@ -18,6 +22,7 @@ import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateKeyOption } from '../models/CreateKeyOption';
 import type { CreatePullRequestOption } from '../models/CreatePullRequestOption';
 import type { CreatePullReviewOptions } from '../models/CreatePullReviewOptions';
+import type { CreatePushMirrorOption } from '../models/CreatePushMirrorOption';
 import type { CreateReleaseOption } from '../models/CreateReleaseOption';
 import type { CreateRepoOption } from '../models/CreateRepoOption';
 import type { CreateStatusOption } from '../models/CreateStatusOption';
@@ -35,19 +40,25 @@ import type { EditReleaseOption } from '../models/EditReleaseOption';
 import type { EditRepoOption } from '../models/EditRepoOption';
 import type { FileDeleteResponse } from '../models/FileDeleteResponse';
 import type { FileResponse } from '../models/FileResponse';
+import type { FilesResponse } from '../models/FilesResponse';
 import type { GenerateRepoOption } from '../models/GenerateRepoOption';
 import type { GitBlobResponse } from '../models/GitBlobResponse';
 import type { GitHook } from '../models/GitHook';
 import type { GitTreeResponse } from '../models/GitTreeResponse';
 import type { Hook } from '../models/Hook';
+import type { Issue } from '../models/Issue';
+import type { IssueConfig } from '../models/IssueConfig';
+import type { IssueConfigValidation } from '../models/IssueConfigValidation';
 import type { IssueTemplate } from '../models/IssueTemplate';
 import type { MergePullRequestOption } from '../models/MergePullRequestOption';
 import type { MigrateRepoOptions } from '../models/MigrateRepoOptions';
+import type { NewIssuePinsAllowed } from '../models/NewIssuePinsAllowed';
 import type { Note } from '../models/Note';
 import type { PullRequest } from '../models/PullRequest';
 import type { PullReview } from '../models/PullReview';
 import type { PullReviewComment } from '../models/PullReviewComment';
 import type { PullReviewRequestOptions } from '../models/PullReviewRequestOptions';
+import type { PushMirror } from '../models/PushMirror';
 import type { Reference } from '../models/Reference';
 import type { Release } from '../models/Release';
 import type { RepoCollaboratorPermission } from '../models/RepoCollaboratorPermission';
@@ -311,6 +322,57 @@ export class RepositoryService {
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
                 422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
+
+    /**
+     * List a repository's activity feeds
+     * @returns Activity ActivityFeedsList
+     * @throws ApiError
+     */
+    public repoListActivityFeeds({
+        owner,
+        repo,
+        date,
+        page,
+        limit,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * the date of the activities to be found
+         */
+        date?: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Activity>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/activities/feeds',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            query: {
+                'date': date,
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
@@ -630,6 +692,7 @@ export class RepositoryService {
             },
             body: body,
             errors: {
+                403: `The branch is archived or a mirror.`,
                 404: `The old branch does not exist.`,
                 409: `The branch with the same name already exists.`,
             },
@@ -916,8 +979,12 @@ export class RepositoryService {
         repo,
         sha,
         path,
+        stat,
+        verification,
+        files,
         page,
         limit,
+        not,
     }: {
         /**
          * owner of the repo
@@ -936,6 +1003,18 @@ export class RepositoryService {
          */
         path?: string,
         /**
+         * include diff stats for every commit (disable for speedup, default 'true')
+         */
+        stat?: boolean,
+        /**
+         * include verification for every commit (disable for speedup, default 'true')
+         */
+        verification?: boolean,
+        /**
+         * include a list of affected files for every commit (disable for speedup, default 'true')
+         */
+        files?: boolean,
+        /**
          * page number of results to return (1-based)
          */
         page?: number,
@@ -943,6 +1022,10 @@ export class RepositoryService {
          * page size of results (ignored if used with 'path')
          */
         limit?: number,
+        /**
+         * commits that match the given specifier will not be listed.
+         */
+        not?: string,
     }): CancelablePromise<Array<Commit>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -954,8 +1037,12 @@ export class RepositoryService {
             query: {
                 'sha': sha,
                 'path': path,
+                'stat': stat,
+                'verification': verification,
+                'files': files,
                 'page': page,
                 'limit': limit,
+                'not': not,
             },
             errors: {
                 404: `APINotFound is a not found empty response`,
@@ -1113,6 +1200,42 @@ export class RepositoryService {
             },
             errors: {
                 404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+
+    /**
+     * Modify multiple files in a repository
+     * @returns FilesResponse FilesResponse
+     * @throws ApiError
+     */
+    public repoChangeFiles({
+        owner,
+        repo,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        body: ChangeFilesOptions,
+    }): CancelablePromise<FilesResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/contents',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            body: body,
+            errors: {
+                403: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+                422: `APIError is error format response`,
             },
         });
     }
@@ -1488,6 +1611,9 @@ export class RepositoryService {
         owner,
         repo,
         sha,
+        stat,
+        verification,
+        files,
     }: {
         /**
          * owner of the repo
@@ -1501,6 +1627,18 @@ export class RepositoryService {
          * a git ref or commit sha
          */
         sha: string,
+        /**
+         * include diff stats for every commit (disable for speedup, default 'true')
+         */
+        stat?: boolean,
+        /**
+         * include verification for every commit (disable for speedup, default 'true')
+         */
+        verification?: boolean,
+        /**
+         * include a list of affected files for every commit (disable for speedup, default 'true')
+         */
+        files?: boolean,
     }): CancelablePromise<Commit> {
         return this.httpRequest.request({
             method: 'GET',
@@ -1509,6 +1647,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
                 'sha': sha,
+            },
+            query: {
+                'stat': stat,
+                'verification': verification,
+                'files': files,
             },
             errors: {
                 404: `APINotFound is a not found empty response`,
@@ -2129,6 +2272,62 @@ export class RepositoryService {
     }
 
     /**
+     * Returns the issue config for a repo
+     * @returns IssueConfig RepoIssueConfig
+     * @throws ApiError
+     */
+    public repoGetIssueConfig({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<IssueConfig> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issue_config',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+        });
+    }
+
+    /**
+     * Returns the validation information for a issue config
+     * @returns IssueConfigValidation RepoIssueConfigValidation
+     * @throws ApiError
+     */
+    public repoValidateIssueConfig({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<IssueConfigValidation> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issue_config/validate',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+        });
+    }
+
+    /**
      * Get available issue templates for a repository
      * @returns IssueTemplate IssueTemplates
      * @throws ApiError
@@ -2149,6 +2348,34 @@ export class RepositoryService {
         return this.httpRequest.request({
             method: 'GET',
             url: '/repos/{owner}/{repo}/issue_templates',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+        });
+    }
+
+    /**
+     * List a repo's pinned issues
+     * @returns Issue IssueList
+     * @throws ApiError
+     */
+    public repoListPinnedIssues({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<Array<Issue>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issues/pinned',
             path: {
                 'owner': owner,
                 'repo': repo,
@@ -2423,6 +2650,34 @@ export class RepositoryService {
     }
 
     /**
+     * Returns if new Issue Pins are allowed
+     * @returns NewIssuePinsAllowed RepoNewIssuePinsAllowed
+     * @throws ApiError
+     */
+    public repoNewPinAllowed({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<NewIssuePinsAllowed> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/new_pin_allowed',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+        });
+    }
+
+    /**
      * List a repo's pull requests
      * @returns PullRequest PullRequestList
      * @throws ApiError
@@ -2519,6 +2774,34 @@ export class RepositoryService {
             errors: {
                 409: `APIError is error format response`,
                 422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
+
+    /**
+     * List a repo's pinned pull requests
+     * @returns PullRequest PullRequestList
+     * @throws ApiError
+     */
+    public repoListPinnedPullRequests({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<Array<PullRequest>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/pulls/pinned',
+            path: {
+                'owner': owner,
+                'repo': repo,
             },
         });
     }
@@ -2696,6 +2979,69 @@ export class RepositoryService {
                 'index': index,
             },
             query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+
+    /**
+     * Get changed files for a pull request
+     * @returns ChangedFile ChangedFileList
+     * @throws ApiError
+     */
+    public repoGetPullRequestFiles({
+        owner,
+        repo,
+        index,
+        skipTo,
+        whitespace,
+        page,
+        limit,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the pull request to get
+         */
+        index: number,
+        /**
+         * skip to given file
+         */
+        skipTo?: string,
+        /**
+         * whitespace behavior
+         */
+        whitespace?: 'ignore-all' | 'ignore-change' | 'ignore-eol' | 'show-all',
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<ChangedFile>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/pulls/{index}/files',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            query: {
+                'skip-to': skipTo,
+                'whitespace': whitespace,
                 'page': page,
                 'limit': limit,
             },
@@ -3312,6 +3658,195 @@ export class RepositoryService {
     }
 
     /**
+     * Get all push mirrors of the repository
+     * @returns PushMirror PushMirrorList
+     * @throws ApiError
+     */
+    public repoListPushMirrors({
+        owner,
+        repo,
+        page,
+        limit,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<PushMirror>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/push_mirrors',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                403: `APIForbiddenError is a forbidden error response`,
+            },
+        });
+    }
+
+    /**
+     * add a push mirror to the repository
+     * @returns PushMirror PushMirror
+     * @throws ApiError
+     */
+    public repoAddPushMirror({
+        owner,
+        repo,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        body?: CreatePushMirrorOption,
+    }): CancelablePromise<PushMirror> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/push_mirrors',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                403: `APIForbiddenError is a forbidden error response`,
+            },
+        });
+    }
+
+    /**
+     * Sync all push mirrored repository
+     * @returns any APIEmpty is an empty response
+     * @throws ApiError
+     */
+    public repoPushMirrorSync({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo to sync
+         */
+        owner: string,
+        /**
+         * name of the repo to sync
+         */
+        repo: string,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/push_mirrors-sync',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                403: `APIForbiddenError is a forbidden error response`,
+            },
+        });
+    }
+
+    /**
+     * Get push mirror of the repository by remoteName
+     * @returns PushMirror PushMirror
+     * @throws ApiError
+     */
+    public repoGetPushMirrorByRemoteName({
+        owner,
+        repo,
+        name,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * remote name of push mirror
+         */
+        name: string,
+    }): CancelablePromise<PushMirror> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/push_mirrors/{name}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'name': name,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                403: `APIForbiddenError is a forbidden error response`,
+            },
+        });
+    }
+
+    /**
+     * deletes a push mirror from a repository by remoteName
+     * @returns void
+     * @throws ApiError
+     */
+    public repoDeletePushMirror({
+        owner,
+        repo,
+        name,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * remote name of the pushMirror
+         */
+        name: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/push_mirrors/{name}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'name': name,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+
+    /**
      * Get a file from a repository
      * @returns any Returns raw file content.
      * @throws ApiError
@@ -3447,6 +3982,37 @@ export class RepositoryService {
             errors: {
                 404: `APINotFound is a not found empty response`,
                 409: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Gets the most recent non-prerelease, non-draft release of a repository, sorted by created_at
+     * @returns Release Release
+     * @throws ApiError
+     */
+    public repoGetLatestRelease({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<Release> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/releases/latest',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
@@ -5185,6 +5751,7 @@ export class RepositoryService {
             url: '/user/repos',
             body: body,
             errors: {
+                400: `APIError is error format response`,
                 409: `The repository with the same name already exists.`,
                 422: `APIValidationError is error format response related to input validation`,
             },

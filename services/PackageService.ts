@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -38,7 +39,7 @@ export class PackageService {
         /**
          * package type filter
          */
-        type?: 'composer' | 'conan' | 'container' | 'generic' | 'helm' | 'maven' | 'npm' | 'nuget' | 'pypi' | 'rubygems',
+        type?: 'alpine' | 'cargo' | 'chef' | 'composer' | 'conan' | 'conda' | 'container' | 'cran' | 'debian' | 'generic' | 'go' | 'helm' | 'maven' | 'npm' | 'nuget' | 'pub' | 'pypi' | 'rpm' | 'rubygems' | 'swift' | 'vagrant',
         /**
          * name filter
          */

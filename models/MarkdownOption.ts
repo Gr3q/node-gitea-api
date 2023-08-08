@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -13,7 +14,7 @@ export type MarkdownOption = {
      */
     Context?: string;
     /**
-     * Mode to render
+     * Mode to render (comment, gfm, markdown)
      *
      * in: body
      */

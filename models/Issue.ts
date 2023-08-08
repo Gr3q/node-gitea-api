@@ -1,7 +1,9 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 
+import type { Attachment } from './Attachment';
 import type { Label } from './Label';
 import type { Milestone } from './Milestone';
 import type { PullRequestMeta } from './PullRequestMeta';
@@ -13,6 +15,7 @@ import type { User } from './User';
  * Issue represents an issue in a repository
  */
 export type Issue = {
+    assets?: Array<Attachment>;
     assignee?: User;
     assignees?: Array<User>;
     body?: string;
@@ -28,6 +31,7 @@ export type Issue = {
     number?: number;
     original_author?: string;
     original_author_id?: number;
+    pin_order?: number;
     pull_request?: PullRequestMeta;
     ref?: string;
     repository?: RepositoryMeta;

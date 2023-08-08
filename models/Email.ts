@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -8,6 +9,8 @@
 export type Email = {
     email?: string;
     primary?: boolean;
+    user_id?: number;
+    username?: string;
     verified?: boolean;
 };
 

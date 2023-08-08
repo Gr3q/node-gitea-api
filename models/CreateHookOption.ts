@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -9,6 +10,7 @@ import type { CreateHookOptionConfig } from './CreateHookOptionConfig';
  */
 export type CreateHookOption = {
     active?: boolean;
+    authorization_header?: string;
     branch_filter?: string;
     config: CreateHookOptionConfig;
     events?: Array<string>;

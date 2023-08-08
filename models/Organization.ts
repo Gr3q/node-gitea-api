@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -11,7 +12,11 @@ export type Organization = {
     full_name?: string;
     id?: number;
     location?: string;
+    name?: string;
     repo_admin_change_team_access?: boolean;
+    /**
+     * deprecated
+     */
     username?: string;
     visibility?: string;
     website?: string;

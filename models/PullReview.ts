@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -22,6 +23,7 @@ export type PullReview = {
     state?: ReviewStateType;
     submitted_at?: string;
     team?: Team;
+    updated_at?: string;
     user?: User;
 };
 

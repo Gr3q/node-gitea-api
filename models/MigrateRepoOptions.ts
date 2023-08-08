@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -42,6 +43,10 @@ export namespace MigrateRepoOptions {
         GITHUB = 'github',
         GITEA = 'gitea',
         GITLAB = 'gitlab',
+        GOGS = 'gogs',
+        ONEDEV = 'onedev',
+        GITBUCKET = 'gitbucket',
+        CODEBASE = 'codebase',
     }
 
 

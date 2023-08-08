@@ -1,12 +1,15 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 import type { AddTimeOption } from '../models/AddTimeOption';
+import type { Attachment } from '../models/Attachment';
 import type { Comment } from '../models/Comment';
 import type { CreateIssueCommentOption } from '../models/CreateIssueCommentOption';
 import type { CreateIssueOption } from '../models/CreateIssueOption';
 import type { CreateLabelOption } from '../models/CreateLabelOption';
 import type { CreateMilestoneOption } from '../models/CreateMilestoneOption';
+import type { EditAttachmentOptions } from '../models/EditAttachmentOptions';
 import type { EditDeadlineOption } from '../models/EditDeadlineOption';
 import type { EditIssueCommentOption } from '../models/EditIssueCommentOption';
 import type { EditIssueOption } from '../models/EditIssueOption';
@@ -16,6 +19,7 @@ import type { EditReactionOption } from '../models/EditReactionOption';
 import type { Issue } from '../models/Issue';
 import type { IssueDeadline } from '../models/IssueDeadline';
 import type { IssueLabelsOption } from '../models/IssueLabelsOption';
+import type { IssueMeta } from '../models/IssueMeta';
 import type { Label } from '../models/Label';
 import type { Milestone } from '../models/Milestone';
 import type { Reaction } from '../models/Reaction';
@@ -49,6 +53,7 @@ export class IssueService {
         created,
         mentioned,
         reviewRequested,
+        reviewed,
         owner,
         team,
         page,
@@ -103,6 +108,10 @@ export class IssueService {
          */
         reviewRequested?: boolean,
         /**
+         * filter pulls reviewed by you, default is false
+         */
+        reviewed?: boolean,
+        /**
          * filter by owner
          */
         owner?: string,
@@ -135,6 +144,7 @@ export class IssueService {
                 'created': created,
                 'mentioned': mentioned,
                 'review_requested': reviewRequested,
+                'reviewed': reviewed,
                 'owner': owner,
                 'team': team,
                 'page': page,
@@ -453,6 +463,229 @@ export class IssueService {
     }
 
     /**
+     * List comment's attachments
+     * @returns Attachment AttachmentList
+     * @throws ApiError
+     */
+    public issueListIssueCommentAttachments({
+        owner,
+        repo,
+        id,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * id of the comment
+         */
+        id: number,
+    }): CancelablePromise<Array<Attachment>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issues/comments/{id}/assets',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'id': id,
+            },
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Create a comment attachment
+     * @returns Attachment Attachment
+     * @throws ApiError
+     */
+    public issueCreateIssueCommentAttachment({
+        owner,
+        repo,
+        id,
+        attachment,
+        name,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * id of the comment
+         */
+        id: number,
+        /**
+         * attachment to upload
+         */
+        attachment: Blob,
+        /**
+         * name of the attachment
+         */
+        name?: string,
+    }): CancelablePromise<Attachment> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/issues/comments/{id}/assets',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'id': id,
+            },
+            query: {
+                'name': name,
+            },
+            formData: {
+                'attachment': attachment,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Get a comment attachment
+     * @returns Attachment Attachment
+     * @throws ApiError
+     */
+    public issueGetIssueCommentAttachment({
+        owner,
+        repo,
+        id,
+        attachmentId,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * id of the comment
+         */
+        id: number,
+        /**
+         * id of the attachment to get
+         */
+        attachmentId: number,
+    }): CancelablePromise<Attachment> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issues/comments/{id}/assets/{attachment_id}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'id': id,
+                'attachment_id': attachmentId,
+            },
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Delete a comment attachment
+     * @returns void
+     * @throws ApiError
+     */
+    public issueDeleteIssueCommentAttachment({
+        owner,
+        repo,
+        id,
+        attachmentId,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * id of the comment
+         */
+        id: number,
+        /**
+         * id of the attachment to delete
+         */
+        attachmentId: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/issues/comments/{id}/assets/{attachment_id}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'id': id,
+                'attachment_id': attachmentId,
+            },
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Edit a comment attachment
+     * @returns Attachment Attachment
+     * @throws ApiError
+     */
+    public issueEditIssueCommentAttachment({
+        owner,
+        repo,
+        id,
+        attachmentId,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * id of the comment
+         */
+        id: number,
+        /**
+         * id of the attachment to edit
+         */
+        attachmentId: number,
+        body?: EditAttachmentOptions,
+    }): CancelablePromise<Attachment> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/repos/{owner}/{repo}/issues/comments/{id}/assets/{attachment_id}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'id': id,
+                'attachment_id': attachmentId,
+            },
+            body: body,
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
      * Get a list of reactions from a comment of an issue
      * @returns Reaction ReactionList
      * @throws ApiError
@@ -687,6 +920,354 @@ export class IssueService {
     }
 
     /**
+     * List issue's attachments
+     * @returns Attachment AttachmentList
+     * @throws ApiError
+     */
+    public issueListIssueAttachments({
+        owner,
+        repo,
+        index,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: number,
+    }): CancelablePromise<Array<Attachment>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issues/{index}/assets',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Create an issue attachment
+     * @returns Attachment Attachment
+     * @throws ApiError
+     */
+    public issueCreateIssueAttachment({
+        owner,
+        repo,
+        index,
+        attachment,
+        name,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: number,
+        /**
+         * attachment to upload
+         */
+        attachment: Blob,
+        /**
+         * name of the attachment
+         */
+        name?: string,
+    }): CancelablePromise<Attachment> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/issues/{index}/assets',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            query: {
+                'name': name,
+            },
+            formData: {
+                'attachment': attachment,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Get an issue attachment
+     * @returns Attachment Attachment
+     * @throws ApiError
+     */
+    public issueGetIssueAttachment({
+        owner,
+        repo,
+        index,
+        attachmentId,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: number,
+        /**
+         * id of the attachment to get
+         */
+        attachmentId: number,
+    }): CancelablePromise<Attachment> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issues/{index}/assets/{attachment_id}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+                'attachment_id': attachmentId,
+            },
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Delete an issue attachment
+     * @returns void
+     * @throws ApiError
+     */
+    public issueDeleteIssueAttachment({
+        owner,
+        repo,
+        index,
+        attachmentId,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: number,
+        /**
+         * id of the attachment to delete
+         */
+        attachmentId: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/issues/{index}/assets/{attachment_id}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+                'attachment_id': attachmentId,
+            },
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * Edit an issue attachment
+     * @returns Attachment Attachment
+     * @throws ApiError
+     */
+    public issueEditIssueAttachment({
+        owner,
+        repo,
+        index,
+        attachmentId,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: number,
+        /**
+         * id of the attachment to edit
+         */
+        attachmentId: number,
+        body?: EditAttachmentOptions,
+    }): CancelablePromise<Attachment> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/repos/{owner}/{repo}/issues/{index}/assets/{attachment_id}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+                'attachment_id': attachmentId,
+            },
+            body: body,
+            errors: {
+                404: `APIError is error format response`,
+            },
+        });
+    }
+
+    /**
+     * List issues that are blocked by this issue
+     * @returns Issue IssueList
+     * @throws ApiError
+     */
+    public issueListBlocks({
+        owner,
+        repo,
+        index,
+        page,
+        limit,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Issue>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issues/{index}/blocks',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+        });
+    }
+
+    /**
+     * Block the issue given in the body by the issue in path
+     * @returns Issue Issue
+     * @throws ApiError
+     */
+    public issueCreateIssueBlocking({
+        owner,
+        repo,
+        index,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: string,
+        body?: IssueMeta,
+    }): CancelablePromise<Issue> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/issues/{index}/blocks',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            body: body,
+            errors: {
+                404: `the issue does not exist`,
+            },
+        });
+    }
+
+    /**
+     * Unblock the issue given in the body by the issue in path
+     * @returns Issue Issue
+     * @throws ApiError
+     */
+    public issueRemoveIssueBlocking({
+        owner,
+        repo,
+        index,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: string,
+        body?: IssueMeta,
+    }): CancelablePromise<Issue> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/issues/{index}/blocks',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            body: body,
+        });
+    }
+
+    /**
      * List all comments on an issue
      * @returns Comment CommentList
      * @throws ApiError
@@ -909,6 +1490,131 @@ export class IssueService {
     }
 
     /**
+     * List an issue's dependencies, i.e all issues that block this issue.
+     * @returns Issue IssueList
+     * @throws ApiError
+     */
+    public issueListIssueDependencies({
+        owner,
+        repo,
+        index,
+        page,
+        limit,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Issue>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/issues/{index}/dependencies',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+        });
+    }
+
+    /**
+     * Make the issue in the url depend on the issue in the form.
+     * @returns Issue Issue
+     * @throws ApiError
+     */
+    public issueCreateIssueDependencies({
+        owner,
+        repo,
+        index,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: string,
+        body?: IssueMeta,
+    }): CancelablePromise<Issue> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/issues/{index}/dependencies',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            body: body,
+            errors: {
+                404: `the issue does not exist`,
+            },
+        });
+    }
+
+    /**
+     * Remove an issue dependency
+     * @returns Issue Issue
+     * @throws ApiError
+     */
+    public issueRemoveIssueDependencies({
+        owner,
+        repo,
+        index,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of the issue
+         */
+        index: string,
+        body?: IssueMeta,
+    }): CancelablePromise<Issue> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/issues/{index}/dependencies',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            body: body,
+        });
+    }
+
+    /**
      * Get an issue's labels
      * @returns Label LabelList
      * @throws ApiError
@@ -1102,6 +1808,126 @@ export class IssueService {
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
                 422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
+
+    /**
+     * Pin an Issue
+     * @returns void
+     * @throws ApiError
+     */
+    public pinIssue({
+        owner,
+        repo,
+        index,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of issue to pin
+         */
+        index: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/issues/{index}/pin',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+
+    /**
+     * Unpin an Issue
+     * @returns void
+     * @throws ApiError
+     */
+    public unpinIssue({
+        owner,
+        repo,
+        index,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of issue to unpin
+         */
+        index: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/issues/{index}/pin',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+            },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+
+    /**
+     * Moves the Pin to the given Position
+     * @returns void
+     * @throws ApiError
+     */
+    public moveIssuePin({
+        owner,
+        repo,
+        index,
+        position,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * index of issue
+         */
+        index: number,
+        /**
+         * the new position
+         */
+        position: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/repos/{owner}/{repo}/issues/{index}/pin/{position}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'index': index,
+                'position': position,
+            },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }

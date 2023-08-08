@@ -1,6 +1,8 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Activity } from '../models/Activity';
 import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateLabelOption } from '../models/CreateLabelOption';
 import type { CreateOrgOption } from '../models/CreateOrgOption';
@@ -174,6 +176,51 @@ export class OrganizationService {
     }
 
     /**
+     * List an organization's activity feeds
+     * @returns Activity ActivityFeedsList
+     * @throws ApiError
+     */
+    public orgListActivityFeeds({
+        org,
+        date,
+        page,
+        limit,
+    }: {
+        /**
+         * name of the org
+         */
+        org: string,
+        /**
+         * the date of the activities to be found
+         */
+        date?: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Activity>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orgs/{org}/activities/feeds',
+            path: {
+                'org': org,
+            },
+            query: {
+                'date': date,
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+
+    /**
      * List an organization's webhooks
      * @returns Hook HookList
      * @throws ApiError
@@ -226,7 +273,7 @@ export class OrganizationService {
     }): CancelablePromise<Hook> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/orgs/{org}/hooks/',
+            url: '/orgs/{org}/hooks',
             path: {
                 'org': org,
             },
@@ -759,6 +806,7 @@ export class OrganizationService {
             },
             body: body,
             errors: {
+                400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
             },
@@ -946,6 +994,51 @@ export class OrganizationService {
                 'id': id,
             },
             body: body,
+        });
+    }
+
+    /**
+     * List a team's activity feeds
+     * @returns Activity ActivityFeedsList
+     * @throws ApiError
+     */
+    public orgListTeamActivityFeeds({
+        id,
+        date,
+        page,
+        limit,
+    }: {
+        /**
+         * id of the team
+         */
+        id: number,
+        /**
+         * the date of the activities to be found
+         */
+        date?: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Activity>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/teams/{id}/activities/feeds',
+            path: {
+                'id': id,
+            },
+            query: {
+                'date': date,
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
 

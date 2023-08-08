@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -36,6 +37,8 @@ export type PullRequest = {
     milestone?: Milestone;
     number?: number;
     patch_url?: string;
+    pin_order?: number;
+    requested_reviewers?: Array<User>;
     state?: StateType;
     title?: string;
     updated_at?: string;

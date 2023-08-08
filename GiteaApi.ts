@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -5,6 +6,7 @@ import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { NodeHttpRequest } from './core/NodeHttpRequest';
 
+import { ActivitypubService } from './services/ActivitypubService';
 import { AdminService } from './services/AdminService';
 import { IssueService } from './services/IssueService';
 import { MiscellaneousService } from './services/MiscellaneousService';
@@ -19,6 +21,7 @@ type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
 export class GiteaApi {
 
+    public readonly activitypub: ActivitypubService;
     public readonly admin: AdminService;
     public readonly issue: IssueService;
     public readonly miscellaneous: MiscellaneousService;
@@ -34,7 +37,7 @@ export class GiteaApi {
     constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = NodeHttpRequest) {
         this.request = new HttpRequest({
             BASE: config?.BASE ?? '/api/v1',
-            VERSION: config?.VERSION ?? '1.17.3',
+            VERSION: config?.VERSION ?? '1.20.2',
             WITH_CREDENTIALS: config?.WITH_CREDENTIALS ?? false,
             CREDENTIALS: config?.CREDENTIALS ?? 'include',
             TOKEN: config?.TOKEN,
@@ -44,6 +47,7 @@ export class GiteaApi {
             ENCODE_PATH: config?.ENCODE_PATH,
         });
 
+        this.activitypub = new ActivitypubService(this.request);
         this.admin = new AdminService(this.request);
         this.issue = new IssueService(this.request);
         this.miscellaneous = new MiscellaneousService(this.request);

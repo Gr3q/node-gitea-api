@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -20,6 +21,7 @@ export type ContentsResponse = {
     encoding?: string;
     git_url?: string;
     html_url?: string;
+    last_commit_sha?: string;
     name?: string;
     path?: string;
     sha?: string;

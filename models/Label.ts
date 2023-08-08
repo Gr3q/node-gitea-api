@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -8,6 +9,7 @@
 export type Label = {
     color?: string;
     description?: string;
+    exclusive?: boolean;
     id?: number;
     name?: string;
     url?: string;

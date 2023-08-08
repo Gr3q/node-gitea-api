@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -16,12 +17,16 @@ export type Repository = {
     allow_merge_commits?: boolean;
     allow_rebase?: boolean;
     allow_rebase_explicit?: boolean;
+    allow_rebase_update?: boolean;
     allow_squash_merge?: boolean;
     archived?: boolean;
+    archived_at?: string;
     avatar_url?: string;
     clone_url?: string;
     created_at?: string;
+    default_allow_maintainer_edit?: boolean;
     default_branch?: string;
+    default_delete_branch_after_merge?: boolean;
     default_merge_style?: string;
     description?: string;
     empty?: boolean;
@@ -30,9 +35,12 @@ export type Repository = {
     fork?: boolean;
     forks_count?: number;
     full_name?: string;
+    has_actions?: boolean;
     has_issues?: boolean;
+    has_packages?: boolean;
     has_projects?: boolean;
     has_pull_requests?: boolean;
+    has_releases?: boolean;
     has_wiki?: boolean;
     html_url?: string;
     id?: number;
@@ -41,6 +49,7 @@ export type Repository = {
     internal_tracker?: InternalTracker;
     language?: string;
     languages_url?: string;
+    link?: string;
     mirror?: boolean;
     mirror_interval?: string;
     mirror_updated?: string;

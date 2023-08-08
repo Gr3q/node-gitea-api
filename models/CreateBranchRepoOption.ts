@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -11,8 +12,13 @@ export type CreateBranchRepoOption = {
      */
     new_branch_name: string;
     /**
+     * Deprecated: true
      * Name of the old branch to create from
      */
     old_branch_name?: string;
+    /**
+     * Name of the old branch/tag/commit to create from
+     */
+    old_ref_name?: string;
 };
 

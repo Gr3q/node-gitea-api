@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -11,6 +12,9 @@ export type BranchProtection = {
     block_on_official_review_requests?: boolean;
     block_on_outdated_branch?: boolean;
     block_on_rejected_reviews?: boolean;
+    /**
+     * Deprecated: true
+     */
     branch_name?: string;
     created_at?: string;
     dismiss_stale_approvals?: boolean;
@@ -27,6 +31,7 @@ export type BranchProtection = {
     push_whitelist_usernames?: Array<string>;
     require_signed_commits?: boolean;
     required_approvals?: number;
+    rule_name?: string;
     status_check_contexts?: Array<string>;
     unprotected_file_patterns?: string;
     updated_at?: string;

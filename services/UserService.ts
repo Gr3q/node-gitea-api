@@ -1,16 +1,21 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 import type { AccessToken } from '../models/AccessToken';
+import type { Activity } from '../models/Activity';
 import type { CreateAccessTokenOption } from '../models/CreateAccessTokenOption';
 import type { CreateEmailOption } from '../models/CreateEmailOption';
 import type { CreateGPGKeyOption } from '../models/CreateGPGKeyOption';
+import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateKeyOption } from '../models/CreateKeyOption';
 import type { CreateOAuth2ApplicationOptions } from '../models/CreateOAuth2ApplicationOptions';
 import type { CreateRepoOption } from '../models/CreateRepoOption';
 import type { DeleteEmailOption } from '../models/DeleteEmailOption';
+import type { EditHookOption } from '../models/EditHookOption';
 import type { Email } from '../models/Email';
 import type { GPGKey } from '../models/GPGKey';
+import type { Hook } from '../models/Hook';
 import type { OAuth2Application } from '../models/OAuth2Application';
 import type { PublicKey } from '../models/PublicKey';
 import type { Repository } from '../models/Repository';
@@ -476,6 +481,120 @@ export class UserService {
     }
 
     /**
+     * List the authenticated user's webhooks
+     * @returns Hook HookList
+     * @throws ApiError
+     */
+    public userListHooks({
+        page,
+        limit,
+    }: {
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Hook>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/user/hooks',
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+        });
+    }
+
+    /**
+     * Create a hook
+     * @returns Hook Hook
+     * @throws ApiError
+     */
+    public userCreateHook({
+        body,
+    }: {
+        body: CreateHookOption,
+    }): CancelablePromise<Hook> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/user/hooks',
+            body: body,
+        });
+    }
+
+    /**
+     * Get a hook
+     * @returns Hook Hook
+     * @throws ApiError
+     */
+    public userGetHook({
+        id,
+    }: {
+        /**
+         * id of the hook to get
+         */
+        id: number,
+    }): CancelablePromise<Hook> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/user/hooks/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * Delete a hook
+     * @returns void
+     * @throws ApiError
+     */
+    public userDeleteHook({
+        id,
+    }: {
+        /**
+         * id of the hook to delete
+         */
+        id: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/user/hooks/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * Update a hook
+     * @returns Hook Hook
+     * @throws ApiError
+     */
+    public userEditHook({
+        id,
+        body,
+    }: {
+        /**
+         * id of the hook to update
+         */
+        id: number,
+        body?: EditHookOption,
+    }): CancelablePromise<Hook> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/user/hooks/{id}',
+            path: {
+                'id': id,
+            },
+            body: body,
+        });
+    }
+
+    /**
      * List the authenticated user's public keys
      * @returns PublicKey PublicKeyList
      * @throws ApiError
@@ -623,6 +742,7 @@ export class UserService {
             url: '/user/repos',
             body: body,
             errors: {
+                400: `APIError is error format response`,
                 409: `The repository with the same name already exists.`,
                 422: `APIValidationError is error format response related to input validation`,
             },
@@ -958,6 +1078,57 @@ export class UserService {
             url: '/users/{username}',
             path: {
                 'username': username,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+
+    /**
+     * List a user's activity feeds
+     * @returns Activity ActivityFeedsList
+     * @throws ApiError
+     */
+    public userListActivityFeeds({
+        username,
+        onlyPerformedBy,
+        date,
+        page,
+        limit,
+    }: {
+        /**
+         * username of user
+         */
+        username: string,
+        /**
+         * if true, only show actions performed by the requested user
+         */
+        onlyPerformedBy?: boolean,
+        /**
+         * the date of the activities to be found
+         */
+        date?: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Activity>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/users/{username}/activities/feeds',
+            path: {
+                'username': username,
+            },
+            query: {
+                'only-performed-by': onlyPerformedBy,
+                'date': date,
+                'page': page,
+                'limit': limit,
             },
             errors: {
                 404: `APINotFound is a not found empty response`,
@@ -1322,13 +1493,13 @@ export class UserService {
      */
     public userCreateToken({
         username,
-        userCreateToken,
+        body,
     }: {
         /**
          * username of user
          */
         username: string,
-        userCreateToken?: CreateAccessTokenOption,
+        body?: CreateAccessTokenOption,
     }): CancelablePromise<AccessToken> {
         return this.httpRequest.request({
             method: 'POST',
@@ -1336,7 +1507,7 @@ export class UserService {
             path: {
                 'username': username,
             },
-            body: userCreateToken,
+            body: body,
             errors: {
                 400: `APIError is error format response`,
             },

@@ -1,3 +1,4 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -50,6 +51,10 @@ export type User = {
      * the user's username
      */
     login?: string;
+    /**
+     * the user's authentication sign-in name.
+     */
+    login_name?: string;
     /**
      * Is user login prohibited
      */

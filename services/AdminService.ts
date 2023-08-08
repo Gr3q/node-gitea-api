@@ -1,14 +1,20 @@
+/* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateKeyOption } from '../models/CreateKeyOption';
 import type { CreateOrgOption } from '../models/CreateOrgOption';
 import type { CreateRepoOption } from '../models/CreateRepoOption';
 import type { CreateUserOption } from '../models/CreateUserOption';
 import type { Cron } from '../models/Cron';
+import type { EditHookOption } from '../models/EditHookOption';
 import type { EditUserOption } from '../models/EditUserOption';
+import type { Email } from '../models/Email';
+import type { Hook } from '../models/Hook';
 import type { Organization } from '../models/Organization';
 import type { PublicKey } from '../models/PublicKey';
+import type { RenameUserOption } from '../models/RenameUserOption';
 import type { Repository } from '../models/Repository';
 import type { User } from '../models/User';
 
@@ -72,6 +78,188 @@ export class AdminService {
             errors: {
                 404: `APINotFound is a not found empty response`,
             },
+        });
+    }
+
+    /**
+     * List all emails
+     * @returns Email EmailList
+     * @throws ApiError
+     */
+    public adminGetAllEmails({
+        page,
+        limit,
+    }: {
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Email>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/admin/emails',
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+            },
+        });
+    }
+
+    /**
+     * Search all emails
+     * @returns Email EmailList
+     * @throws ApiError
+     */
+    public adminSearchEmails({
+        q,
+        page,
+        limit,
+    }: {
+        /**
+         * keyword
+         */
+        q?: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Email>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/admin/emails/search',
+            query: {
+                'q': q,
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+            },
+        });
+    }
+
+    /**
+     * List system's webhooks
+     * @returns Hook HookList
+     * @throws ApiError
+     */
+    public adminListHooks({
+        page,
+        limit,
+    }: {
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Hook>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/admin/hooks',
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+        });
+    }
+
+    /**
+     * Create a hook
+     * @returns Hook Hook
+     * @throws ApiError
+     */
+    public adminCreateHook({
+        body,
+    }: {
+        body: CreateHookOption,
+    }): CancelablePromise<Hook> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/admin/hooks',
+            body: body,
+        });
+    }
+
+    /**
+     * Get a hook
+     * @returns Hook Hook
+     * @throws ApiError
+     */
+    public adminGetHook({
+        id,
+    }: {
+        /**
+         * id of the hook to get
+         */
+        id: number,
+    }): CancelablePromise<Hook> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/admin/hooks/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * Delete a hook
+     * @returns void
+     * @throws ApiError
+     */
+    public adminDeleteHook({
+        id,
+    }: {
+        /**
+         * id of the hook to delete
+         */
+        id: number,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/admin/hooks/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * Update a hook
+     * @returns Hook Hook
+     * @throws ApiError
+     */
+    public adminEditHook({
+        id,
+        body,
+    }: {
+        /**
+         * id of the hook to update
+         */
+        id: number,
+        body?: EditHookOption,
+    }): CancelablePromise<Hook> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/admin/hooks/{id}',
+            path: {
+                'id': id,
+            },
+            body: body,
         });
     }
 
@@ -207,14 +395,24 @@ export class AdminService {
     }
 
     /**
-     * List all users
+     * Search users according filter conditions
      * @returns User UserList
      * @throws ApiError
      */
-    public adminGetAllUsers({
+    public adminSearchUsers({
+        sourceId,
+        loginName,
         page,
         limit,
     }: {
+        /**
+         * ID of the user's login source to search for
+         */
+        sourceId?: number,
+        /**
+         * user's login name to search for
+         */
+        loginName?: string,
         /**
          * page number of results to return (1-based)
          */
@@ -228,6 +426,8 @@ export class AdminService {
             method: 'GET',
             url: '/admin/users',
             query: {
+                'source_id': sourceId,
+                'login_name': loginName,
                 'page': page,
                 'limit': limit,
             },
@@ -266,11 +466,16 @@ export class AdminService {
      */
     public adminDeleteUser({
         username,
+        purge,
     }: {
         /**
          * username of user to delete
          */
         username: string,
+        /**
+         * purge the user from the system completely
+         */
+        purge?: boolean,
     }): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'DELETE',
@@ -278,8 +483,12 @@ export class AdminService {
             path: {
                 'username': username,
             },
+            query: {
+                'purge': purge,
+            },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
@@ -405,6 +614,35 @@ export class AdminService {
     }
 
     /**
+     * Rename a user
+     * @returns void
+     * @throws ApiError
+     */
+    public adminRenameUser({
+        username,
+        body,
+    }: {
+        /**
+         * existing username of user
+         */
+        username: string,
+        body: RenameUserOption,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/admin/users/{username}/rename',
+            path: {
+                'username': username,
+            },
+            body: body,
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
+
+    /**
      * Create a repository on behalf of a user
      * @returns Repository Repository
      * @throws ApiError
@@ -427,6 +665,7 @@ export class AdminService {
             },
             body: repository,
             errors: {
+                400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
                 409: `APIError is error format response`,

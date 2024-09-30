@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { Attachment } from './Attachment';
 import type { Label } from './Label';
 import type { Milestone } from './Milestone';
@@ -10,7 +9,6 @@ import type { PullRequestMeta } from './PullRequestMeta';
 import type { RepositoryMeta } from './RepositoryMeta';
 import type { StateType } from './StateType';
 import type { User } from './User';
-
 /**
  * Issue represents an issue in a repository
  */

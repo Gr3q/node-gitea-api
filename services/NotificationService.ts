@@ -1,17 +1,13 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 import type { NotificationCount } from '../models/NotificationCount';
 import type { NotificationThread } from '../models/NotificationThread';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class NotificationService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * List users's notification threads
      * @returns NotificationThread NotificationThreadList
@@ -69,7 +65,6 @@ export class NotificationService {
             },
         });
     }
-
     /**
      * Mark notification threads as read, pinned or unread
      * @returns NotificationThread NotificationThreadList
@@ -109,7 +104,6 @@ export class NotificationService {
             },
         });
     }
-
     /**
      * Check if unread notifications exist
      * @returns NotificationCount Number of unread notifications
@@ -121,7 +115,6 @@ export class NotificationService {
             url: '/notifications/new',
         });
     }
-
     /**
      * Get notification thread by ID
      * @returns NotificationThread NotificationThread
@@ -147,7 +140,6 @@ export class NotificationService {
             },
         });
     }
-
     /**
      * Mark notification thread as read by ID
      * @returns NotificationThread NotificationThread
@@ -181,7 +173,6 @@ export class NotificationService {
             },
         });
     }
-
     /**
      * List users's notification threads on a specific repo
      * @returns NotificationThread NotificationThreadList
@@ -253,7 +244,6 @@ export class NotificationService {
             },
         });
     }
-
     /**
      * Mark notification threads as read, pinned or unread on a specific repo
      * @returns NotificationThread NotificationThreadList
@@ -307,5 +297,4 @@ export class NotificationService {
             },
         });
     }
-
 }

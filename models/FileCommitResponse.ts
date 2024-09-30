@@ -1,11 +1,9 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { CommitMeta } from './CommitMeta';
 import type { CommitUser } from './CommitUser';
-
 export type FileCommitResponse = {
     author?: CommitUser;
     committer?: CommitUser;

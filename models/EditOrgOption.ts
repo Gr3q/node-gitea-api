@@ -1,13 +1,13 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * EditOrgOption options for editing an organization
  */
 export type EditOrgOption = {
     description?: string;
+    email?: string;
     full_name?: string;
     location?: string;
     repo_admin_change_team_access?: boolean;
@@ -17,9 +17,7 @@ export type EditOrgOption = {
     visibility?: EditOrgOption.visibility;
     website?: string;
 };
-
 export namespace EditOrgOption {
-
     /**
      * possible values are `public`, `limited` or `private`
      */
@@ -28,7 +26,5 @@ export namespace EditOrgOption {
         LIMITED = 'limited',
         PRIVATE = 'private',
     }
-
-
 }
 

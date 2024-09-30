@@ -1,12 +1,10 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { AnnotatedTagObject } from './AnnotatedTagObject';
 import type { CommitUser } from './CommitUser';
 import type { PayloadCommitVerification } from './PayloadCommitVerification';
-
 /**
  * AnnotatedTag represents an annotated tag
  */

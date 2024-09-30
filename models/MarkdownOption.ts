@@ -1,14 +1,14 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * MarkdownOption markdown options
  */
 export type MarkdownOption = {
     /**
-     * Context to render
+     * URL path for rendering issue, media and file links
+     * Expected format: /subpath/{user}/{repo}/src/{branch, commit, tag}/{identifier/path}/{file/dir}
      *
      * in: body
      */

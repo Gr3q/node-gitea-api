@@ -1,13 +1,16 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ActionVariable } from '../models/ActionVariable';
 import type { Activity } from '../models/Activity';
 import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateLabelOption } from '../models/CreateLabelOption';
 import type { CreateOrgOption } from '../models/CreateOrgOption';
+import type { CreateOrUpdateSecretOption } from '../models/CreateOrUpdateSecretOption';
 import type { CreateRepoOption } from '../models/CreateRepoOption';
 import type { CreateTeamOption } from '../models/CreateTeamOption';
+import type { CreateVariableOption } from '../models/CreateVariableOption';
 import type { EditHookOption } from '../models/EditHookOption';
 import type { EditLabelOption } from '../models/EditLabelOption';
 import type { EditOrgOption } from '../models/EditOrgOption';
@@ -17,16 +20,15 @@ import type { Label } from '../models/Label';
 import type { Organization } from '../models/Organization';
 import type { OrganizationPermissions } from '../models/OrganizationPermissions';
 import type { Repository } from '../models/Repository';
+import type { Secret } from '../models/Secret';
 import type { Team } from '../models/Team';
+import type { UpdateUserAvatarOption } from '../models/UpdateUserAvatarOption';
+import type { UpdateVariableOption } from '../models/UpdateVariableOption';
 import type { User } from '../models/User';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class OrganizationService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * @deprecated
      * Create a repository in an organization
@@ -52,11 +54,11 @@ export class OrganizationService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get list of organizations
      * @returns Organization OrganizationList
@@ -84,7 +86,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * Create an organization
      * @returns Organization Organization
@@ -105,7 +106,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * Get an organization
      * @returns Organization Organization
@@ -125,9 +125,11 @@ export class OrganizationService {
             path: {
                 'org': org,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete an organization
      * @returns void
@@ -147,9 +149,11 @@ export class OrganizationService {
             path: {
                 'org': org,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Edit an organization
      * @returns Organization Organization
@@ -172,9 +176,306 @@ export class OrganizationService {
                 'org': org,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
+    /**
+     * Get an organization's actions runner registration token
+     * @returns string RegistrationToken is response related to registration token
+     * @throws ApiError
+     */
+    public orgGetRunnerRegistrationToken({
+        org,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+    }): CancelablePromise<string> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orgs/{org}/actions/runners/registration-token',
+            path: {
+                'org': org,
+            },
+            responseHeader: 'token',
+        });
+    }
+    /**
+     * List an organization's actions secrets
+     * @returns Secret SecretList
+     * @throws ApiError
+     */
+    public orgListActionsSecrets({
+        org,
+        page,
+        limit,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Secret>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orgs/{org}/actions/secrets',
+            path: {
+                'org': org,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Create or Update a secret value in an organization
+     * @returns any response when creating a secret
+     * @throws ApiError
+     */
+    public updateOrgSecret({
+        org,
+        secretname,
+        body,
+    }: {
+        /**
+         * name of organization
+         */
+        org: string,
+        /**
+         * name of the secret
+         */
+        secretname: string,
+        body?: CreateOrUpdateSecretOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/orgs/{org}/actions/secrets/{secretname}',
+            path: {
+                'org': org,
+                'secretname': secretname,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete a secret in an organization
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteOrgSecret({
+        org,
+        secretname,
+    }: {
+        /**
+         * name of organization
+         */
+        org: string,
+        /**
+         * name of the secret
+         */
+        secretname: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/orgs/{org}/actions/secrets/{secretname}',
+            path: {
+                'org': org,
+                'secretname': secretname,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Get an org-level variables list
+     * @returns ActionVariable VariableList
+     * @throws ApiError
+     */
+    public getOrgVariablesList({
+        org,
+        page,
+        limit,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<ActionVariable>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orgs/{org}/actions/variables',
+            path: {
+                'org': org,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Get an org-level variable
+     * @returns ActionVariable ActionVariable
+     * @throws ApiError
+     */
+    public getOrgVariable({
+        org,
+        variablename,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+    }): CancelablePromise<ActionVariable> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orgs/{org}/actions/variables/{variablename}',
+            path: {
+                'org': org,
+                'variablename': variablename,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Update an org-level variable
+     * @returns any response when updating an org-level variable
+     * @throws ApiError
+     */
+    public updateOrgVariable({
+        org,
+        variablename,
+        body,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+        body?: UpdateVariableOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/orgs/{org}/actions/variables/{variablename}',
+            path: {
+                'org': org,
+                'variablename': variablename,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Create an org-level variable
+     * @returns any response when creating an org-level variable
+     * @throws ApiError
+     */
+    public createOrgVariable({
+        org,
+        variablename,
+        body,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+        body?: CreateVariableOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/orgs/{org}/actions/variables/{variablename}',
+            path: {
+                'org': org,
+                'variablename': variablename,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete an org-level variable
+     * @returns ActionVariable ActionVariable
+     * @returns any response when deleting a variable
+     * @throws ApiError
+     */
+    public deleteOrgVariable({
+        org,
+        variablename,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+    }): CancelablePromise<ActionVariable | any> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/orgs/{org}/actions/variables/{variablename}',
+            path: {
+                'org': org,
+                'variablename': variablename,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
     /**
      * List an organization's activity feeds
      * @returns Activity ActivityFeedsList
@@ -219,7 +520,192 @@ export class OrganizationService {
             },
         });
     }
-
+    /**
+     * Update Avatar
+     * @returns void
+     * @throws ApiError
+     */
+    public orgUpdateAvatar({
+        org,
+        body,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        body?: UpdateUserAvatarOption,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/orgs/{org}/avatar',
+            path: {
+                'org': org,
+            },
+            body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete Avatar
+     * @returns void
+     * @throws ApiError
+     */
+    public orgDeleteAvatar({
+        org,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/orgs/{org}/avatar',
+            path: {
+                'org': org,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * List users blocked by the organization
+     * @returns User UserList
+     * @throws ApiError
+     */
+    public organizationListBlocks({
+        org,
+        page,
+        limit,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<User>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orgs/{org}/blocks',
+            path: {
+                'org': org,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+        });
+    }
+    /**
+     * Check if a user is blocked by the organization
+     * @returns void
+     * @throws ApiError
+     */
+    public organizationCheckUserBlock({
+        org,
+        username,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * user to check
+         */
+        username: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orgs/{org}/blocks/{username}',
+            path: {
+                'org': org,
+                'username': username,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Block a user
+     * @returns void
+     * @throws ApiError
+     */
+    public organizationBlockUser({
+        org,
+        username,
+        note,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * user to block
+         */
+        username: string,
+        /**
+         * optional note for the block
+         */
+        note?: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/orgs/{org}/blocks/{username}',
+            path: {
+                'org': org,
+                'username': username,
+            },
+            query: {
+                'note': note,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+                422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
+    /**
+     * Unblock a user
+     * @returns void
+     * @throws ApiError
+     */
+    public organizationUnblockUser({
+        org,
+        username,
+    }: {
+        /**
+         * name of the organization
+         */
+        org: string,
+        /**
+         * user to unblock
+         */
+        username: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/orgs/{org}/blocks/{username}',
+            path: {
+                'org': org,
+                'username': username,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+                422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
     /**
      * List an organization's webhooks
      * @returns Hook HookList
@@ -253,9 +739,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a hook
      * @returns Hook Hook
@@ -278,9 +766,11 @@ export class OrganizationService {
                 'org': org,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a hook
      * @returns Hook Hook
@@ -306,9 +796,11 @@ export class OrganizationService {
                 'org': org,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a hook
      * @returns void
@@ -334,9 +826,11 @@ export class OrganizationService {
                 'org': org,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Update a hook
      * @returns Hook Hook
@@ -365,9 +859,11 @@ export class OrganizationService {
                 'id': id,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List an organization's labels
      * @returns Label LabelList
@@ -401,9 +897,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a label for an organization
      * @returns Label Label
@@ -427,11 +925,11 @@ export class OrganizationService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get a single label
      * @returns Label Label
@@ -457,9 +955,11 @@ export class OrganizationService {
                 'org': org,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a label
      * @returns void
@@ -485,9 +985,11 @@ export class OrganizationService {
                 'org': org,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Update a label
      * @returns Label Label
@@ -517,11 +1019,11 @@ export class OrganizationService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * List an organization's members
      * @returns User UserList
@@ -555,9 +1057,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Check if a user is a member of an organization
      * @returns void
@@ -589,7 +1093,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * Remove a member from an organization
      * @returns void
@@ -615,9 +1118,11 @@ export class OrganizationService {
                 'org': org,
                 'username': username,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List an organization's public members
      * @returns User UserList
@@ -651,9 +1156,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Check if a user is a public member of an organization
      * @returns void
@@ -684,7 +1191,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * Publicize a user's membership
      * @returns void
@@ -712,10 +1218,10 @@ export class OrganizationService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Conceal a user's membership
      * @returns void
@@ -743,10 +1249,10 @@ export class OrganizationService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * List an organization's repos
      * @returns Repository RepositoryList
@@ -780,9 +1286,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a repository in an organization
      * @returns Repository Repository
@@ -812,7 +1320,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * List an organization's teams
      * @returns Team TeamList
@@ -846,9 +1353,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a team
      * @returns Team Team
@@ -872,11 +1381,11 @@ export class OrganizationService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Search for teams within an organization
      * @returns any SearchResults of a successful search
@@ -925,9 +1434,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a team
      * @returns Team Team
@@ -947,9 +1458,11 @@ export class OrganizationService {
             path: {
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a team
      * @returns void
@@ -969,9 +1482,11 @@ export class OrganizationService {
             path: {
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Edit a team
      * @returns Team Team
@@ -994,9 +1509,11 @@ export class OrganizationService {
                 'id': id,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a team's activity feeds
      * @returns Activity ActivityFeedsList
@@ -1041,7 +1558,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * List a team's members
      * @returns User UserList
@@ -1075,9 +1591,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a particular member of team
      * @returns User User
@@ -1108,7 +1626,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * Add a team member
      * @returns void
@@ -1135,11 +1652,11 @@ export class OrganizationService {
                 'username': username,
             },
             errors: {
+                403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Remove a team member
      * @returns void
@@ -1170,7 +1687,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * List a team's repos
      * @returns Repository RepositoryList
@@ -1204,9 +1720,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a particular repo of team
      * @returns Repository Repository
@@ -1243,7 +1761,6 @@ export class OrganizationService {
             },
         });
     }
-
     /**
      * Add a repository to a team
      * @returns void
@@ -1277,10 +1794,10 @@ export class OrganizationService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Remove a repository from a team
      * This does not delete the repository, it only removes the repository from the team.
@@ -1315,10 +1832,10 @@ export class OrganizationService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * List the current user's organizations
      * @returns Organization OrganizationList
@@ -1344,9 +1861,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a user's organizations
      * @returns Organization OrganizationList
@@ -1380,9 +1899,11 @@ export class OrganizationService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get user permissions in organization
      * @returns OrganizationPermissions OrganizationPermissions
@@ -1414,5 +1935,4 @@ export class OrganizationService {
             },
         });
     }
-
 }

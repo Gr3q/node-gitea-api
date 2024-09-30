@@ -1,12 +1,10 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { CommitStatus } from './CommitStatus';
 import type { CommitStatusState } from './CommitStatusState';
 import type { Repository } from './Repository';
-
 /**
  * CombinedStatus holds the combined state of several statuses for a single commit
  */

@@ -1,10 +1,8 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { Organization } from './Organization';
-
 /**
  * Team represents a team in an organization
  */
@@ -19,9 +17,7 @@ export type Team = {
     units?: Array<string>;
     units_map?: Record<string, string>;
 };
-
 export namespace Team {
-
     export enum permission {
         NONE = 'none',
         READ = 'read',
@@ -29,7 +25,5 @@ export namespace Team {
         ADMIN = 'admin',
         OWNER = 'owner',
     }
-
-
 }
 

@@ -1,8 +1,9 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 import type { AccessToken } from '../models/AccessToken';
+import type { ActionVariable } from '../models/ActionVariable';
 import type { Activity } from '../models/Activity';
 import type { CreateAccessTokenOption } from '../models/CreateAccessTokenOption';
 import type { CreateEmailOption } from '../models/CreateEmailOption';
@@ -10,7 +11,9 @@ import type { CreateGPGKeyOption } from '../models/CreateGPGKeyOption';
 import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateKeyOption } from '../models/CreateKeyOption';
 import type { CreateOAuth2ApplicationOptions } from '../models/CreateOAuth2ApplicationOptions';
+import type { CreateOrUpdateSecretOption } from '../models/CreateOrUpdateSecretOption';
 import type { CreateRepoOption } from '../models/CreateRepoOption';
+import type { CreateVariableOption } from '../models/CreateVariableOption';
 import type { DeleteEmailOption } from '../models/DeleteEmailOption';
 import type { EditHookOption } from '../models/EditHookOption';
 import type { Email } from '../models/Email';
@@ -22,18 +25,16 @@ import type { Repository } from '../models/Repository';
 import type { StopWatch } from '../models/StopWatch';
 import type { Team } from '../models/Team';
 import type { TrackedTime } from '../models/TrackedTime';
+import type { UpdateUserAvatarOption } from '../models/UpdateUserAvatarOption';
+import type { UpdateVariableOption } from '../models/UpdateVariableOption';
 import type { User } from '../models/User';
 import type { UserHeatmapData } from '../models/UserHeatmapData';
 import type { UserSettings } from '../models/UserSettings';
 import type { UserSettingsOptions } from '../models/UserSettingsOptions';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class UserService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * Get the authenticated user
      * @returns User User
@@ -45,7 +46,208 @@ export class UserService {
             url: '/user',
         });
     }
-
+    /**
+     * Get an user's actions runner registration token
+     * @returns string RegistrationToken is response related to registration token
+     * @throws ApiError
+     */
+    public userGetRunnerRegistrationToken(): CancelablePromise<string> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/user/actions/runners/registration-token',
+            responseHeader: 'token',
+        });
+    }
+    /**
+     * Create or Update a secret value in a user scope
+     * @returns any response when creating a secret
+     * @throws ApiError
+     */
+    public updateUserSecret({
+        secretname,
+        body,
+    }: {
+        /**
+         * name of the secret
+         */
+        secretname: string,
+        body?: CreateOrUpdateSecretOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/user/actions/secrets/{secretname}',
+            path: {
+                'secretname': secretname,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete a secret in a user scope
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteUserSecret({
+        secretname,
+    }: {
+        /**
+         * name of the secret
+         */
+        secretname: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/user/actions/secrets/{secretname}',
+            path: {
+                'secretname': secretname,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Get the user-level list of variables which is created by current doer
+     * @returns ActionVariable VariableList
+     * @throws ApiError
+     */
+    public getUserVariablesList({
+        page,
+        limit,
+    }: {
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<ActionVariable>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/user/actions/variables',
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Get a user-level variable which is created by current doer
+     * @returns ActionVariable ActionVariable
+     * @throws ApiError
+     */
+    public getUserVariable({
+        variablename,
+    }: {
+        /**
+         * name of the variable
+         */
+        variablename: string,
+    }): CancelablePromise<ActionVariable> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/user/actions/variables/{variablename}',
+            path: {
+                'variablename': variablename,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Update a user-level variable which is created by current doer
+     * @returns any response when updating a variable
+     * @throws ApiError
+     */
+    public updateUserVariable({
+        variablename,
+        body,
+    }: {
+        /**
+         * name of the variable
+         */
+        variablename: string,
+        body?: UpdateVariableOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/user/actions/variables/{variablename}',
+            path: {
+                'variablename': variablename,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Create a user-level variable
+     * @returns any response when creating a variable
+     * @throws ApiError
+     */
+    public createUserVariable({
+        variablename,
+        body,
+    }: {
+        /**
+         * name of the variable
+         */
+        variablename: string,
+        body?: CreateVariableOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/user/actions/variables/{variablename}',
+            path: {
+                'variablename': variablename,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete a user-level variable which is created by current doer
+     * @returns any response when deleting a variable
+     * @throws ApiError
+     */
+    public deleteUserVariable({
+        variablename,
+    }: {
+        /**
+         * name of the variable
+         */
+        variablename: string,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/user/actions/variables/{variablename}',
+            path: {
+                'variablename': variablename,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
     /**
      * List the authenticated user's oauth2 applications
      * @returns OAuth2Application OAuth2ApplicationList represents a list of OAuth2 applications.
@@ -73,7 +275,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * creates a new OAuth2 application
      * @returns OAuth2Application OAuth2Application
@@ -93,7 +294,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * get an OAuth2 Application
      * @returns OAuth2Application OAuth2Application
@@ -118,7 +318,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * delete an OAuth2 Application
      * @returns void
@@ -143,7 +342,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * update an OAuth2 Application, this includes regenerating the client secret
      * @returns OAuth2Application OAuth2Application
@@ -171,7 +369,142 @@ export class UserService {
             },
         });
     }
-
+    /**
+     * Update Avatar
+     * @returns void
+     * @throws ApiError
+     */
+    public userUpdateAvatar({
+        body,
+    }: {
+        body?: UpdateUserAvatarOption,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/user/avatar',
+            body: body,
+        });
+    }
+    /**
+     * Delete Avatar
+     * @returns void
+     * @throws ApiError
+     */
+    public userDeleteAvatar(): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/user/avatar',
+        });
+    }
+    /**
+     * List users blocked by the authenticated user
+     * @returns User UserList
+     * @throws ApiError
+     */
+    public userListBlocks({
+        page,
+        limit,
+    }: {
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<User>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/user/blocks',
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+        });
+    }
+    /**
+     * Check if a user is blocked by the authenticated user
+     * @returns void
+     * @throws ApiError
+     */
+    public userCheckUserBlock({
+        username,
+    }: {
+        /**
+         * user to check
+         */
+        username: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/user/blocks/{username}',
+            path: {
+                'username': username,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Block a user
+     * @returns void
+     * @throws ApiError
+     */
+    public userBlockUser({
+        username,
+        note,
+    }: {
+        /**
+         * user to block
+         */
+        username: string,
+        /**
+         * optional note for the block
+         */
+        note?: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/user/blocks/{username}',
+            path: {
+                'username': username,
+            },
+            query: {
+                'note': note,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+                422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
+    /**
+     * Unblock a user
+     * @returns void
+     * @throws ApiError
+     */
+    public userUnblockUser({
+        username,
+    }: {
+        /**
+         * user to unblock
+         */
+        username: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/user/blocks/{username}',
+            path: {
+                'username': username,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+                422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
     /**
      * List the authenticated user's email addresses
      * @returns Email EmailList
@@ -183,7 +516,6 @@ export class UserService {
             url: '/user/emails',
         });
     }
-
     /**
      * Add email addresses
      * @returns Email EmailList
@@ -203,7 +535,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Delete email addresses
      * @returns void
@@ -223,7 +554,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the authenticated user's followers
      * @returns User UserList
@@ -251,7 +581,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the users that the authenticated user is following
      * @returns User UserList
@@ -279,7 +608,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Check whether a user is followed by the authenticated user
      * @returns void
@@ -304,7 +632,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Follow a user
      * @returns void
@@ -324,9 +651,12 @@ export class UserService {
             path: {
                 'username': username,
             },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Unfollow a user
      * @returns void
@@ -346,9 +676,11 @@ export class UserService {
             path: {
                 'username': username,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a Token to verify
      * @returns string APIString is a string response
@@ -363,7 +695,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Verify a GPG key
      * @returns GPGKey GPGKey
@@ -379,7 +710,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the authenticated user's GPG keys
      * @returns GPGKey GPGKeyList
@@ -407,7 +737,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Create a GPG key
      * @returns GPGKey GPGKey
@@ -428,7 +757,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Get a GPG key
      * @returns GPGKey GPGKey
@@ -453,7 +781,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Remove a GPG key
      * @returns void
@@ -479,7 +806,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the authenticated user's webhooks
      * @returns Hook HookList
@@ -507,7 +833,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Create a hook
      * @returns Hook Hook
@@ -524,7 +849,6 @@ export class UserService {
             body: body,
         });
     }
-
     /**
      * Get a hook
      * @returns Hook Hook
@@ -546,7 +870,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Delete a hook
      * @returns void
@@ -568,7 +891,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Update a hook
      * @returns Hook Hook
@@ -593,7 +915,6 @@ export class UserService {
             body: body,
         });
     }
-
     /**
      * List the authenticated user's public keys
      * @returns PublicKey PublicKeyList
@@ -627,7 +948,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Create a public key
      * @returns PublicKey PublicKey
@@ -647,7 +967,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Get a public key
      * @returns PublicKey PublicKey
@@ -672,7 +991,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Delete a public key
      * @returns void
@@ -698,7 +1016,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the repos that the authenticated user owns
      * @returns Repository RepositoryList
@@ -726,7 +1043,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Create a repository
      * @returns Repository Repository
@@ -748,7 +1064,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Get user settings
      * @returns UserSettings UserSettings
@@ -760,7 +1075,6 @@ export class UserService {
             url: '/user/settings',
         });
     }
-
     /**
      * Update user settings
      * @returns UserSettings UserSettings
@@ -777,7 +1091,6 @@ export class UserService {
             body: body,
         });
     }
-
     /**
      * The repos that the authenticated user has starred
      * @returns Repository RepositoryList
@@ -805,7 +1118,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Whether the authenticated is starring the repo
      * @returns void
@@ -836,7 +1148,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Star the given repo
      * @returns void
@@ -862,9 +1173,12 @@ export class UserService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Unstar the given repo
      * @returns void
@@ -890,9 +1204,11 @@ export class UserService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get list of all existing stopwatches
      * @returns StopWatch StopWatchList
@@ -920,7 +1236,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List repositories watched by the authenticated user
      * @returns Repository RepositoryList
@@ -948,7 +1263,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List all the teams a user belongs to
      * @returns Team TeamList
@@ -976,7 +1290,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the current user's tracked times
      * @returns TrackedTime TrackedTimeList
@@ -1016,7 +1329,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Search for users
      * @returns any SearchResults of a successful search
@@ -1059,7 +1371,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * Get a user
      * @returns User User
@@ -1084,7 +1395,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List a user's activity feeds
      * @returns Activity ActivityFeedsList
@@ -1135,7 +1445,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the given user's followers
      * @returns User UserList
@@ -1169,9 +1478,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List the users that the given user is following
      * @returns User UserList
@@ -1205,9 +1516,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Check if one user is following another user
      * @returns void
@@ -1238,7 +1551,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the given user's GPG keys
      * @returns GPGKey GPGKeyList
@@ -1272,9 +1584,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a user's heatmap
      * @returns UserHeatmapData UserHeatmapData
@@ -1299,7 +1613,6 @@ export class UserService {
             },
         });
     }
-
     /**
      * List the given user's public keys
      * @returns PublicKey PublicKeyList
@@ -1339,9 +1652,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List the repos owned by the given user
      * @returns Repository RepositoryList
@@ -1375,9 +1690,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * The repos that the given user has starred
      * @returns Repository RepositoryList
@@ -1411,9 +1728,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List the repositories watched by a user
      * @returns Repository RepositoryList
@@ -1447,9 +1766,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List the authenticated user's access tokens
      * @returns AccessToken AccessTokenList represents a list of API access token.
@@ -1483,9 +1804,11 @@ export class UserService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+            },
         });
     }
-
     /**
      * Create an access token
      * @returns AccessToken AccessToken represents an API access token.
@@ -1510,10 +1833,10 @@ export class UserService {
             body: body,
             errors: {
                 400: `APIError is error format response`,
+                403: `APIForbiddenError is a forbidden error response`,
             },
         });
     }
-
     /**
      * delete an access token
      * @returns void
@@ -1540,10 +1863,10 @@ export class UserService {
                 'token': token,
             },
             errors: {
+                403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
                 422: `APIError is error format response`,
             },
         });
     }
-
 }

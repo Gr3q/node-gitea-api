@@ -1,15 +1,15 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * IssueLabelsOption a collection of labels
  */
 export type IssueLabelsOption = {
     /**
-     * list of label IDs
+     * Labels can be a list of integers representing label IDs
+     * or a list of strings representing label names
      */
-    labels?: Array<number>;
+    labels?: Array<any>;
 };
 

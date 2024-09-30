@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * CreateUserOption create user options
  */
@@ -17,7 +16,7 @@ export type CreateUserOption = {
     full_name?: string;
     login_name?: string;
     must_change_password?: boolean;
-    password: string;
+    password?: string;
     restricted?: boolean;
     send_notify?: boolean;
     source_id?: number;

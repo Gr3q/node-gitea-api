@@ -1,17 +1,13 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 import type { Package } from '../models/Package';
 import type { PackageFile } from '../models/PackageFile';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class PackageService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * Gets all packages of an owner
      * @returns Package PackageList
@@ -57,9 +53,11 @@ export class PackageService {
                 'type': type,
                 'q': q,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Gets a package
      * @returns Package Package
@@ -102,7 +100,6 @@ export class PackageService {
             },
         });
     }
-
     /**
      * Delete a package
      * @returns void
@@ -145,7 +142,6 @@ export class PackageService {
             },
         });
     }
-
     /**
      * Gets all files of a package
      * @returns PackageFile PackageFileList
@@ -188,5 +184,4 @@ export class PackageService {
             },
         });
     }
-
 }

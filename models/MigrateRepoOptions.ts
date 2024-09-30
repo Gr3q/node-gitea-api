@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * MigrateRepoOptions options for migrating repository's
  * this is used to interact with api v1
@@ -35,9 +34,7 @@ export type MigrateRepoOptions = {
     uid?: number;
     wiki?: boolean;
 };
-
 export namespace MigrateRepoOptions {
-
     export enum service {
         GIT = 'git',
         GITHUB = 'github',
@@ -48,7 +45,5 @@ export namespace MigrateRepoOptions {
         GITBUCKET = 'gitbucket',
         CODEBASE = 'codebase',
     }
-
-
 }
 

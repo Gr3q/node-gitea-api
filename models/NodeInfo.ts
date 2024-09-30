@@ -1,12 +1,10 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { NodeInfoServices } from './NodeInfoServices';
 import type { NodeInfoSoftware } from './NodeInfoSoftware';
 import type { NodeInfoUsage } from './NodeInfoUsage';
-
 /**
  * NodeInfo contains standardized way of exposing metadata about a server running one of the distributed social networks
  */

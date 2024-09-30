@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * GenerateRepoOption options when creating repository using a template
  */
@@ -43,6 +42,10 @@ export type GenerateRepoOption = {
      * Whether the repository is private
      */
     private?: boolean;
+    /**
+     * include protected branches in template repo
+     */
+    protected_branch?: boolean;
     /**
      * include topics in template repo
      */

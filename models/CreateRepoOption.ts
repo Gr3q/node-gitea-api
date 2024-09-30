@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * CreateRepoOption options when creating repository
  */
@@ -36,6 +35,10 @@ export type CreateRepoOption = {
      */
     name: string;
     /**
+     * ObjectFormatName of the underlying git repository
+     */
+    object_format_name?: CreateRepoOption.object_format_name;
+    /**
      * Whether the repository is private
      */
     private?: boolean;
@@ -52,9 +55,14 @@ export type CreateRepoOption = {
      */
     trust_model?: CreateRepoOption.trust_model;
 };
-
 export namespace CreateRepoOption {
-
+    /**
+     * ObjectFormatName of the underlying git repository
+     */
+    export enum object_format_name {
+        SHA1 = 'sha1',
+        SHA256 = 'sha256',
+    }
     /**
      * TrustModel of the repository
      */
@@ -64,7 +72,5 @@ export namespace CreateRepoOption {
         COMMITTER = 'committer',
         COLLABORATORCOMMITTER = 'collaboratorcommitter',
     }
-
-
 }
 

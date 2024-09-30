@@ -1,7 +1,8 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Badge } from '../models/Badge';
 import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateKeyOption } from '../models/CreateKeyOption';
 import type { CreateOrgOption } from '../models/CreateOrgOption';
@@ -17,14 +18,11 @@ import type { PublicKey } from '../models/PublicKey';
 import type { RenameUserOption } from '../models/RenameUserOption';
 import type { Repository } from '../models/Repository';
 import type { User } from '../models/User';
-
+import type { UserBadgeOption } from '../models/UserBadgeOption';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class AdminService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * List cron tasks
      * @returns Cron CronList
@@ -55,7 +53,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Run cron task
      * @returns void
@@ -80,7 +77,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * List all emails
      * @returns Email EmailList
@@ -111,7 +107,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Search all emails
      * @returns Email EmailList
@@ -148,7 +143,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * List system's webhooks
      * @returns Hook HookList
@@ -176,7 +170,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Create a hook
      * @returns Hook Hook
@@ -193,7 +186,6 @@ export class AdminService {
             body: body,
         });
     }
-
     /**
      * Get a hook
      * @returns Hook Hook
@@ -215,7 +207,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Delete a hook
      * @returns void
@@ -237,7 +228,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Update a hook
      * @returns Hook Hook
@@ -262,7 +252,6 @@ export class AdminService {
             body: body,
         });
     }
-
     /**
      * List all organizations
      * @returns Organization OrganizationList
@@ -293,7 +282,18 @@ export class AdminService {
             },
         });
     }
-
+    /**
+     * Get an global actions runner registration token
+     * @returns string RegistrationToken is response related to registration token
+     * @throws ApiError
+     */
+    public adminGetRunnerRegistrationToken(): CancelablePromise<string> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/admin/runners/registration-token',
+            responseHeader: 'token',
+        });
+    }
     /**
      * List unadopted repositories
      * @returns string StringSlice
@@ -330,7 +330,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Adopt unadopted files as a repository
      * @returns void
@@ -362,7 +361,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Delete unadopted files
      * @returns void
@@ -393,7 +391,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Search users according filter conditions
      * @returns User UserList
@@ -436,7 +433,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Create a user
      * @returns User User
@@ -458,7 +454,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Delete a user
      * @returns void
@@ -493,7 +488,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Edit an existing user
      * @returns User User
@@ -517,12 +511,91 @@ export class AdminService {
             },
             body: body,
             errors: {
+                400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
+    /**
+     * List a user's badges
+     * @returns Badge BadgeList
+     * @throws ApiError
+     */
+    public adminListUserBadges({
+        username,
+    }: {
+        /**
+         * username of user
+         */
+        username: string,
+    }): CancelablePromise<Array<Badge>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/admin/users/{username}/badges',
+            path: {
+                'username': username,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Add a badge to a user
+     * @returns void
+     * @throws ApiError
+     */
+    public adminAddUserBadges({
+        username,
+        body,
+    }: {
+        /**
+         * username of user
+         */
+        username: string,
+        body?: UserBadgeOption,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/admin/users/{username}/badges',
+            path: {
+                'username': username,
+            },
+            body: body,
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+            },
+        });
+    }
+    /**
+     * Remove a badge from a user
+     * @returns void
+     * @throws ApiError
+     */
+    public adminDeleteUserBadges({
+        username,
+        body,
+    }: {
+        /**
+         * username of user
+         */
+        username: string,
+        body?: UserBadgeOption,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/admin/users/{username}/badges',
+            path: {
+                'username': username,
+            },
+            body: body,
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                422: `APIValidationError is error format response related to input validation`,
+            },
+        });
+    }
     /**
      * Add a public key on behalf of a user
      * @returns PublicKey PublicKey
@@ -551,7 +624,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Delete a user's public key
      * @returns void
@@ -583,7 +655,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Create an organization
      * @returns Organization Organization
@@ -612,7 +683,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Rename a user
      * @returns void
@@ -641,7 +711,6 @@ export class AdminService {
             },
         });
     }
-
     /**
      * Create a repository on behalf of a user
      * @returns Repository Repository
@@ -673,5 +742,4 @@ export class AdminService {
             },
         });
     }
-
 }

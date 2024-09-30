@@ -1,4 +1,4 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -27,14 +27,10 @@ import type { TimelineComment } from '../models/TimelineComment';
 import type { TrackedTime } from '../models/TrackedTime';
 import type { User } from '../models/User';
 import type { WatchInfo } from '../models/WatchInfo';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class IssueService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * Search for issues across the repositories that the user has access to
      * @returns Issue IssueList
@@ -152,7 +148,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * List a repository's issues
      * @returns Issue IssueList
@@ -211,7 +206,7 @@ export class IssueService {
          */
         before?: string,
         /**
-         * Only show items which were created by the the given user
+         * Only show items which were created by the given user
          */
         createdBy?: string,
         /**
@@ -252,9 +247,11 @@ export class IssueService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create an issue. If using deadline only the date will be taken into account, and time of day ignored.
      * @returns Issue Issue
@@ -285,12 +282,13 @@ export class IssueService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 412: `APIError is error format response`,
                 422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * List all comments in a repository
      * @returns Comment CommentList
@@ -342,9 +340,11 @@ export class IssueService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a comment
      * @returns Comment Comment
@@ -382,7 +382,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Delete a comment
      * @returns void
@@ -420,7 +419,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Edit a comment
      * @returns Comment Comment
@@ -458,10 +456,10 @@ export class IssueService {
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * List comment's attachments
      * @returns Attachment AttachmentList
@@ -498,7 +496,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Create a comment attachment
      * @returns Attachment Attachment
@@ -548,11 +545,13 @@ export class IssueService {
             },
             errors: {
                 400: `APIError is error format response`,
+                403: `APIForbiddenError is a forbidden error response`,
                 404: `APIError is error format response`,
+                422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Get a comment attachment
      * @returns Attachment Attachment
@@ -595,7 +594,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Delete a comment attachment
      * @returns void
@@ -635,10 +633,10 @@ export class IssueService {
             },
             errors: {
                 404: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Edit a comment attachment
      * @returns Attachment Attachment
@@ -681,10 +679,10 @@ export class IssueService {
             body: body,
             errors: {
                 404: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Get a list of reactions from a comment of an issue
      * @returns Reaction ReactionList
@@ -718,10 +716,10 @@ export class IssueService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Add a reaction to a comment of an issue
      * @returns Reaction Reaction
@@ -758,10 +756,10 @@ export class IssueService {
             body: content,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Remove a reaction from a comment of an issue
      * @returns any APIEmpty is an empty response
@@ -798,10 +796,10 @@ export class IssueService {
             body: content,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get an issue
      * @returns Issue Issue
@@ -838,7 +836,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Delete an issue
      * @returns void
@@ -876,7 +873,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Edit an issue. If using deadline only the date will be taken into account, and time of day ignored.
      * @returns Issue Issue
@@ -918,7 +914,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * List issue's attachments
      * @returns Attachment AttachmentList
@@ -955,7 +950,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Create an issue attachment
      * @returns Attachment Attachment
@@ -1006,10 +1000,11 @@ export class IssueService {
             errors: {
                 400: `APIError is error format response`,
                 404: `APIError is error format response`,
+                422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Get an issue attachment
      * @returns Attachment Attachment
@@ -1052,7 +1047,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Delete an issue attachment
      * @returns void
@@ -1092,10 +1086,10 @@ export class IssueService {
             },
             errors: {
                 404: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Edit an issue attachment
      * @returns Attachment Attachment
@@ -1138,10 +1132,10 @@ export class IssueService {
             body: body,
             errors: {
                 404: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * List issues that are blocked by this issue
      * @returns Issue IssueList
@@ -1187,9 +1181,11 @@ export class IssueService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Block the issue given in the body by the issue in path
      * @returns Issue Issue
@@ -1229,7 +1225,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Unblock the issue given in the body by the issue in path
      * @returns Issue Issue
@@ -1264,9 +1259,11 @@ export class IssueService {
                 'index': index,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List all comments on an issue
      * @returns Comment CommentList
@@ -1312,9 +1309,11 @@ export class IssueService {
                 'since': since,
                 'before': before,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Add a comment to an issue
      * @returns Comment Comment
@@ -1351,10 +1350,11 @@ export class IssueService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * @deprecated
      * Delete a comment
@@ -1399,7 +1399,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * @deprecated
      * Edit a comment
@@ -1447,7 +1446,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Set an issue deadline. If set to null, the deadline is deleted. If using deadline only the date will be taken into account, and time of day ignored.
      * @returns IssueDeadline IssueDeadline
@@ -1488,7 +1486,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * List an issue's dependencies, i.e all issues that block this issue.
      * @returns Issue IssueList
@@ -1534,9 +1531,11 @@ export class IssueService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Make the issue in the url depend on the issue in the form.
      * @returns Issue Issue
@@ -1573,10 +1572,10 @@ export class IssueService {
             body: body,
             errors: {
                 404: `the issue does not exist`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Remove an issue dependency
      * @returns Issue Issue
@@ -1611,9 +1610,12 @@ export class IssueService {
                 'index': index,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
+            },
         });
     }
-
     /**
      * Get an issue's labels
      * @returns Label LabelList
@@ -1650,7 +1652,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Replace an issue's labels
      * @returns Label LabelList
@@ -1687,10 +1688,10 @@ export class IssueService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Add a label to an issue
      * @returns Label LabelList
@@ -1727,10 +1728,10 @@ export class IssueService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Remove all labels from an issue
      * @returns void
@@ -1764,10 +1765,10 @@ export class IssueService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Remove a label from an issue
      * @returns void
@@ -1807,11 +1808,11 @@ export class IssueService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Pin an Issue
      * @returns void
@@ -1849,7 +1850,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Unpin an Issue
      * @returns void
@@ -1887,7 +1887,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Moves the Pin to the given Position
      * @returns void
@@ -1931,7 +1930,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Get a list reactions of an issue
      * @returns Reaction ReactionList
@@ -1979,10 +1977,10 @@ export class IssueService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Add a reaction to an issue
      * @returns Reaction Reaction
@@ -2019,10 +2017,10 @@ export class IssueService {
             body: content,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Remove a reaction from an issue
      * @returns any APIEmpty is an empty response
@@ -2059,10 +2057,10 @@ export class IssueService {
             body: content,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Delete an issue's existing stopwatch.
      * @returns void
@@ -2101,7 +2099,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Start stopwatch on an issue.
      * @returns any APIEmpty is an empty response
@@ -2140,7 +2137,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Stop an issue's existing stopwatch.
      * @returns any APIEmpty is an empty response
@@ -2179,7 +2175,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Get users who subscribed on an issue.
      * @returns User UserList
@@ -2230,7 +2225,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Check if user is subscribed to an issue
      * @returns WatchInfo WatchInfo
@@ -2267,7 +2261,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Subscribe user to issue
      * @returns any Already subscribed
@@ -2311,7 +2304,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Unsubscribe user from issue
      * @returns any Already unsubscribed
@@ -2355,7 +2347,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * List all comments and events on an issue
      * @returns TimelineComment TimelineList
@@ -2413,9 +2404,11 @@ export class IssueService {
                 'limit': limit,
                 'before': before,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List an issue's tracked times
      * @returns TrackedTime TrackedTimeList
@@ -2484,7 +2477,6 @@ export class IssueService {
             },
         });
     }
-
     /**
      * Add tracked time to a issue
      * @returns TrackedTime TrackedTime
@@ -2522,10 +2514,10 @@ export class IssueService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Reset a tracked time of an issue
      * @returns void
@@ -2560,10 +2552,10 @@ export class IssueService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Delete specific tracked time
      * @returns void
@@ -2604,10 +2596,10 @@ export class IssueService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get all of a repository's labels
      * @returns Label LabelList
@@ -2647,9 +2639,11 @@ export class IssueService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a label
      * @returns Label Label
@@ -2679,11 +2673,11 @@ export class IssueService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get a single label
      * @returns Label Label
@@ -2715,9 +2709,11 @@ export class IssueService {
                 'repo': repo,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a label
      * @returns void
@@ -2749,9 +2745,11 @@ export class IssueService {
                 'repo': repo,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Update a label
      * @returns Label Label
@@ -2787,11 +2785,11 @@ export class IssueService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get all of a repository's opened milestones
      * @returns Milestone MilestoneList
@@ -2843,9 +2841,11 @@ export class IssueService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a milestone
      * @returns Milestone Milestone
@@ -2874,9 +2874,11 @@ export class IssueService {
                 'repo': repo,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a milestone
      * @returns Milestone Milestone
@@ -2908,9 +2910,11 @@ export class IssueService {
                 'repo': repo,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a milestone
      * @returns void
@@ -2942,9 +2946,11 @@ export class IssueService {
                 'repo': repo,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Update a milestone
      * @returns Milestone Milestone
@@ -2979,7 +2985,9 @@ export class IssueService {
                 'id': id,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
 }

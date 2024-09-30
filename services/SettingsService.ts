@@ -1,4 +1,4 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -6,14 +6,10 @@ import type { GeneralAPISettings } from '../models/GeneralAPISettings';
 import type { GeneralAttachmentSettings } from '../models/GeneralAttachmentSettings';
 import type { GeneralRepoSettings } from '../models/GeneralRepoSettings';
 import type { GeneralUISettings } from '../models/GeneralUISettings';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class SettingsService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * Get instance's global settings for api
      * @returns GeneralAPISettings GeneralAPISettings
@@ -25,7 +21,6 @@ export class SettingsService {
             url: '/settings/api',
         });
     }
-
     /**
      * Get instance's global settings for Attachment
      * @returns GeneralAttachmentSettings GeneralAttachmentSettings
@@ -37,7 +32,6 @@ export class SettingsService {
             url: '/settings/attachment',
         });
     }
-
     /**
      * Get instance's global settings for repositories
      * @returns GeneralRepoSettings GeneralRepoSettings
@@ -49,7 +43,6 @@ export class SettingsService {
             url: '/settings/repository',
         });
     }
-
     /**
      * Get instance's global settings for ui
      * @returns GeneralUISettings GeneralUISettings
@@ -61,5 +54,4 @@ export class SettingsService {
             url: '/settings/ui',
         });
     }
-
 }

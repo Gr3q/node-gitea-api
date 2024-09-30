@@ -1,11 +1,9 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { FileCommitResponse } from './FileCommitResponse';
 import type { PayloadCommitVerification } from './PayloadCommitVerification';
-
 /**
  * FileDeleteResponse contains information about a repo's file that was deleted
  */

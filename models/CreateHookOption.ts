@@ -1,10 +1,8 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { CreateHookOptionConfig } from './CreateHookOptionConfig';
-
 /**
  * CreateHookOption options when create a hook
  */
@@ -16,9 +14,7 @@ export type CreateHookOption = {
     events?: Array<string>;
     type: CreateHookOption.type;
 };
-
 export namespace CreateHookOption {
-
     export enum type {
         DINGTALK = 'dingtalk',
         DISCORD = 'discord',
@@ -31,7 +27,5 @@ export namespace CreateHookOption {
         WECHATWORK = 'wechatwork',
         PACKAGIST = 'packagist',
     }
-
-
 }
 

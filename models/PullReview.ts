@@ -1,12 +1,10 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { ReviewStateType } from './ReviewStateType';
 import type { Team } from './Team';
 import type { User } from './User';
-
 /**
  * PullReview represents a pull request review
  */

@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * CreateMilestoneOption options for creating a milestone
  */
@@ -12,14 +11,10 @@ export type CreateMilestoneOption = {
     state?: CreateMilestoneOption.state;
     title?: string;
 };
-
 export namespace CreateMilestoneOption {
-
     export enum state {
         OPEN = 'open',
         CLOSED = 'closed',
     }
-
-
 }
 

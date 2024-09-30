@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * BranchProtection represents a branch protection for a repository
  */
@@ -23,6 +22,7 @@ export type BranchProtection = {
     enable_push?: boolean;
     enable_push_whitelist?: boolean;
     enable_status_check?: boolean;
+    ignore_stale_approvals?: boolean;
     merge_whitelist_teams?: Array<string>;
     merge_whitelist_usernames?: Array<string>;
     protected_file_patterns?: string;

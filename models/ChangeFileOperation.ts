@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * ChangeFileOperation for creating, updating or deleting a file
  */
@@ -28,9 +27,7 @@ export type ChangeFileOperation = {
      */
     sha?: string;
 };
-
 export namespace ChangeFileOperation {
-
     /**
      * indicates what to do with the file
      */
@@ -39,7 +36,5 @@ export namespace ChangeFileOperation {
         UPDATE = 'update',
         DELETE = 'delete',
     }
-
-
 }
 

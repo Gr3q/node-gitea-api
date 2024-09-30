@@ -1,19 +1,18 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { ExternalTracker } from './ExternalTracker';
 import type { ExternalWiki } from './ExternalWiki';
 import type { InternalTracker } from './InternalTracker';
 import type { Permission } from './Permission';
 import type { RepoTransfer } from './RepoTransfer';
 import type { User } from './User';
-
 /**
  * Repository represents a repository
  */
 export type Repository = {
+    allow_fast_forward_only_merge?: boolean;
     allow_merge_commits?: boolean;
     allow_rebase?: boolean;
     allow_rebase_explicit?: boolean;
@@ -54,6 +53,10 @@ export type Repository = {
     mirror_interval?: string;
     mirror_updated?: string;
     name?: string;
+    /**
+     * ObjectFormatName of the underlying git repository
+     */
+    object_format_name?: Repository.object_format_name;
     open_issues_count?: number;
     open_pr_counter?: number;
     original_url?: string;
@@ -61,6 +64,7 @@ export type Repository = {
     parent?: Repository;
     permissions?: Permission;
     private?: boolean;
+    projects_mode?: string;
     release_counter?: number;
     repo_transfer?: RepoTransfer;
     size?: number;
@@ -68,7 +72,17 @@ export type Repository = {
     stars_count?: number;
     template?: boolean;
     updated_at?: string;
+    url?: string;
     watchers_count?: number;
     website?: string;
 };
+export namespace Repository {
+    /**
+     * ObjectFormatName of the underlying git repository
+     */
+    export enum object_format_name {
+        SHA1 = 'sha1',
+        SHA256 = 'sha256',
+    }
+}
 

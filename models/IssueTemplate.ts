@@ -1,11 +1,9 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { IssueFormField } from './IssueFormField';
 import type { IssueTemplateLabels } from './IssueTemplateLabels';
-
 /**
  * IssueTemplate represents an issue template for a repository
  */

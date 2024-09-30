@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { Comment } from './Comment';
 import type { Issue } from './Issue';
 import type { Label } from './Label';
@@ -10,7 +9,6 @@ import type { Milestone } from './Milestone';
 import type { Team } from './Team';
 import type { TrackedTime } from './TrackedTime';
 import type { User } from './User';
-
 /**
  * TimelineComment represents a timeline comment (comment of any type) on a commit or issue
  */

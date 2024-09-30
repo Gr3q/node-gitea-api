@@ -1,12 +1,10 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { Comment } from './Comment';
 import type { Repository } from './Repository';
 import type { User } from './User';
-
 export type Activity = {
     act_user?: User;
     act_user_id?: number;

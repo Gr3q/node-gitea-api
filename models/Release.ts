@@ -1,11 +1,9 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { Attachment } from './Attachment';
 import type { User } from './User';
-
 /**
  * Release represents a repository release
  */
@@ -23,6 +21,7 @@ export type Release = {
     tag_name?: string;
     tarball_url?: string;
     target_commitish?: string;
+    upload_url?: string;
     url?: string;
     zipball_url?: string;
 };

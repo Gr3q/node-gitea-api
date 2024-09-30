@@ -1,10 +1,8 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { FileLinksResponse } from './FileLinksResponse';
-
 /**
  * ContentsResponse contains information about a repo's entry's (dir, file, symlink, submodule) metadata and content
  */

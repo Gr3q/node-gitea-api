@@ -1,16 +1,18 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { ExternalTracker } from './ExternalTracker';
 import type { ExternalWiki } from './ExternalWiki';
 import type { InternalTracker } from './InternalTracker';
-
 /**
  * EditRepoOption options when editing a repository's properties
  */
 export type EditRepoOption = {
+    /**
+     * either `true` to allow fast-forward-only merging pull requests, or `false` to prevent fast-forward-only merging.
+     */
+    allow_fast_forward_only_merge?: boolean;
     /**
      * either `true` to allow mark pr as merged manually, or `false` to prevent it.
      */
@@ -56,7 +58,7 @@ export type EditRepoOption = {
      */
     default_delete_branch_after_merge?: boolean;
     /**
-     * set to a merge style to be used by this repository: "merge", "rebase", "rebase-merge", or "squash".
+     * set to a merge style to be used by this repository: "merge", "rebase", "rebase-merge", "squash", or "fast-forward-only".
      */
     default_merge_style?: string;
     /**
@@ -64,7 +66,7 @@ export type EditRepoOption = {
      */
     description?: string;
     /**
-     * enable prune - remove obsolete remote-tracking references
+     * enable prune - remove obsolete remote-tracking references when mirroring
      */
     enable_prune?: boolean;
     external_tracker?: ExternalTracker;
@@ -116,6 +118,10 @@ export type EditRepoOption = {
      * owners and a non-owner tries to change the value of private.
      */
     private?: boolean;
+    /**
+     * `repo` to only allow repo-level projects, `owner` to only allow owner projects, `all` to allow both.
+     */
+    projects_mode?: string;
     /**
      * either `true` to make this repository a template or `false` to make it a normal repository
      */

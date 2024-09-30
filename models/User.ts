@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * User represents a user
  */
@@ -30,6 +29,10 @@ export type User = {
      * the user's full name
      */
     full_name?: string;
+    /**
+     * URL to the user's gitea page
+     */
+    html_url?: string;
     /**
      * the user's id
      */
@@ -63,6 +66,10 @@ export type User = {
      * Is user restricted
      */
     restricted?: boolean;
+    /**
+     * The ID of the user's Authentication Source
+     */
+    source_id?: number;
     starred_repos_count?: number;
     /**
      * User visibility level option: public, limited, private

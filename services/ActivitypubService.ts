@@ -1,16 +1,12 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 import type { ActivityPub } from '../models/ActivityPub';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class ActivitypubService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * Returns the Person actor for a user
      * @returns ActivityPub ActivityPub
@@ -32,7 +28,6 @@ export class ActivitypubService {
             },
         });
     }
-
     /**
      * Send to the inbox
      * @returns void
@@ -54,5 +49,4 @@ export class ActivitypubService {
             },
         });
     }
-
 }

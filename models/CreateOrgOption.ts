@@ -1,13 +1,13 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * CreateOrgOption options for creating an organization
  */
 export type CreateOrgOption = {
     description?: string;
+    email?: string;
     full_name?: string;
     location?: string;
     repo_admin_change_team_access?: boolean;
@@ -18,9 +18,7 @@ export type CreateOrgOption = {
     visibility?: CreateOrgOption.visibility;
     website?: string;
 };
-
 export namespace CreateOrgOption {
-
     /**
      * possible values are `public` (default), `limited` or `private`
      */
@@ -29,7 +27,5 @@ export namespace CreateOrgOption {
         LIMITED = 'limited',
         PRIVATE = 'private',
     }
-
-
 }
 

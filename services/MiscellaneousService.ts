@@ -1,4 +1,4 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -10,14 +10,10 @@ import type { MarkdownOption } from '../models/MarkdownOption';
 import type { MarkupOption } from '../models/MarkupOption';
 import type { NodeInfo } from '../models/NodeInfo';
 import type { ServerVersion } from '../models/ServerVersion';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class MiscellaneousService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * Returns a list of all gitignore templates
      * @returns string GitignoreTemplateList
@@ -29,7 +25,6 @@ export class MiscellaneousService {
             url: '/gitignore/templates',
         });
     }
-
     /**
      * Returns information about a gitignore template
      * @returns GitignoreTemplateInfo GitignoreTemplateInfo
@@ -54,7 +49,6 @@ export class MiscellaneousService {
             },
         });
     }
-
     /**
      * Returns a list of all label templates
      * @returns string LabelTemplateList
@@ -66,7 +60,6 @@ export class MiscellaneousService {
             url: '/label/templates',
         });
     }
-
     /**
      * Returns all labels in a template
      * @returns LabelTemplate LabelTemplateInfo
@@ -91,7 +84,6 @@ export class MiscellaneousService {
             },
         });
     }
-
     /**
      * Returns a list of all license templates
      * @returns LicensesTemplateListEntry LicenseTemplateList
@@ -103,7 +95,6 @@ export class MiscellaneousService {
             url: '/licenses',
         });
     }
-
     /**
      * Returns information about a license template
      * @returns LicenseTemplateInfo LicenseTemplateInfo
@@ -128,7 +119,6 @@ export class MiscellaneousService {
             },
         });
     }
-
     /**
      * Render a markdown document as HTML
      * @returns string MarkdownRender is a rendered markdown document
@@ -148,7 +138,6 @@ export class MiscellaneousService {
             },
         });
     }
-
     /**
      * Render raw markdown as HTML
      * @returns string MarkdownRender is a rendered markdown document
@@ -171,7 +160,6 @@ export class MiscellaneousService {
             },
         });
     }
-
     /**
      * Render a markup document as HTML
      * @returns string MarkupRender is a rendered markup document
@@ -191,7 +179,6 @@ export class MiscellaneousService {
             },
         });
     }
-
     /**
      * Returns the nodeinfo of the Gitea application
      * @returns NodeInfo NodeInfo
@@ -203,7 +190,6 @@ export class MiscellaneousService {
             url: '/nodeinfo',
         });
     }
-
     /**
      * Get default signing-key.gpg
      * @returns string GPG armored public key
@@ -215,7 +201,6 @@ export class MiscellaneousService {
             url: '/signing-key.gpg',
         });
     }
-
     /**
      * Returns the version of the Gitea application
      * @returns ServerVersion ServerVersion
@@ -227,5 +212,4 @@ export class MiscellaneousService {
             url: '/version',
         });
     }
-
 }

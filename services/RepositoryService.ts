@@ -1,7 +1,8 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ActionVariable } from '../models/ActionVariable';
 import type { Activity } from '../models/Activity';
 import type { AddCollaboratorOption } from '../models/AddCollaboratorOption';
 import type { AnnotatedTag } from '../models/AnnotatedTag';
@@ -13,6 +14,7 @@ import type { ChangeFilesOptions } from '../models/ChangeFilesOptions';
 import type { CombinedStatus } from '../models/CombinedStatus';
 import type { Commit } from '../models/Commit';
 import type { CommitStatus } from '../models/CommitStatus';
+import type { Compare } from '../models/Compare';
 import type { ContentsResponse } from '../models/ContentsResponse';
 import type { CreateBranchProtectionOption } from '../models/CreateBranchProtectionOption';
 import type { CreateBranchRepoOption } from '../models/CreateBranchRepoOption';
@@ -20,6 +22,7 @@ import type { CreateFileOptions } from '../models/CreateFileOptions';
 import type { CreateForkOption } from '../models/CreateForkOption';
 import type { CreateHookOption } from '../models/CreateHookOption';
 import type { CreateKeyOption } from '../models/CreateKeyOption';
+import type { CreateOrUpdateSecretOption } from '../models/CreateOrUpdateSecretOption';
 import type { CreatePullRequestOption } from '../models/CreatePullRequestOption';
 import type { CreatePullReviewOptions } from '../models/CreatePullReviewOptions';
 import type { CreatePushMirrorOption } from '../models/CreatePushMirrorOption';
@@ -27,6 +30,7 @@ import type { CreateReleaseOption } from '../models/CreateReleaseOption';
 import type { CreateRepoOption } from '../models/CreateRepoOption';
 import type { CreateStatusOption } from '../models/CreateStatusOption';
 import type { CreateTagOption } from '../models/CreateTagOption';
+import type { CreateVariableOption } from '../models/CreateVariableOption';
 import type { CreateWikiPageOptions } from '../models/CreateWikiPageOptions';
 import type { DeleteFileOptions } from '../models/DeleteFileOptions';
 import type { DeployKey } from '../models/DeployKey';
@@ -65,6 +69,7 @@ import type { RepoCollaboratorPermission } from '../models/RepoCollaboratorPermi
 import type { Repository } from '../models/Repository';
 import type { RepoTopicOptions } from '../models/RepoTopicOptions';
 import type { SearchResults } from '../models/SearchResults';
+import type { Secret } from '../models/Secret';
 import type { SubmitPullReviewOptions } from '../models/SubmitPullReviewOptions';
 import type { Tag } from '../models/Tag';
 import type { Team } from '../models/Team';
@@ -73,19 +78,17 @@ import type { TopicResponse } from '../models/TopicResponse';
 import type { TrackedTime } from '../models/TrackedTime';
 import type { TransferRepoOption } from '../models/TransferRepoOption';
 import type { UpdateFileOptions } from '../models/UpdateFileOptions';
+import type { UpdateRepoAvatarOption } from '../models/UpdateRepoAvatarOption';
+import type { UpdateVariableOption } from '../models/UpdateVariableOption';
 import type { User } from '../models/User';
 import type { WatchInfo } from '../models/WatchInfo';
 import type { WikiCommitList } from '../models/WikiCommitList';
 import type { WikiPage } from '../models/WikiPage';
 import type { WikiPageMetaData } from '../models/WikiPageMetaData';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-
 export class RepositoryService {
-
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-
     /**
      * Migrate a remote git repository
      * @returns Repository Repository
@@ -107,7 +110,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Search for repositories
      * @returns SearchResults SearchResults
@@ -228,7 +230,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a repository
      * @returns Repository Repository
@@ -254,9 +255,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a repository
      * @returns void
@@ -284,10 +287,10 @@ export class RepositoryService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Edit a repository's properties. Only fields that are set will be changed.
      * @returns Repository Repository
@@ -321,11 +324,360 @@ export class RepositoryService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
+    /**
+     * Get a repository's actions runner registration token
+     * @returns string RegistrationToken is response related to registration token
+     * @throws ApiError
+     */
+    public repoGetRunnerRegistrationToken({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<string> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/actions/runners/registration-token',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            responseHeader: 'token',
+        });
+    }
+    /**
+     * List an repo's actions secrets
+     * @returns Secret SecretList
+     * @throws ApiError
+     */
+    public repoListActionsSecrets({
+        owner,
+        repo,
+        page,
+        limit,
+    }: {
+        /**
+         * owner of the repository
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<Secret>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/actions/secrets',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Create or Update a secret value in a repository
+     * @returns any response when creating a secret
+     * @throws ApiError
+     */
+    public updateRepoSecret({
+        owner,
+        repo,
+        secretname,
+        body,
+    }: {
+        /**
+         * owner of the repository
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * name of the secret
+         */
+        secretname: string,
+        body?: CreateOrUpdateSecretOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/repos/{owner}/{repo}/actions/secrets/{secretname}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'secretname': secretname,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete a secret in a repository
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteRepoSecret({
+        owner,
+        repo,
+        secretname,
+    }: {
+        /**
+         * owner of the repository
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * name of the secret
+         */
+        secretname: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/actions/secrets/{secretname}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'secretname': secretname,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Get repo-level variables list
+     * @returns ActionVariable VariableList
+     * @throws ApiError
+     */
+    public getRepoVariablesList({
+        owner,
+        repo,
+        page,
+        limit,
+    }: {
+        /**
+         * name of the owner
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * page number of results to return (1-based)
+         */
+        page?: number,
+        /**
+         * page size of results
+         */
+        limit?: number,
+    }): CancelablePromise<Array<ActionVariable>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/actions/variables',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Get a repo-level variable
+     * @returns ActionVariable ActionVariable
+     * @throws ApiError
+     */
+    public getRepoVariable({
+        owner,
+        repo,
+        variablename,
+    }: {
+        /**
+         * name of the owner
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+    }): CancelablePromise<ActionVariable> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/actions/variables/{variablename}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'variablename': variablename,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Update a repo-level variable
+     * @returns any response when updating a repo-level variable
+     * @throws ApiError
+     */
+    public updateRepoVariable({
+        owner,
+        repo,
+        variablename,
+        body,
+    }: {
+        /**
+         * name of the owner
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+        body?: UpdateVariableOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/repos/{owner}/{repo}/actions/variables/{variablename}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'variablename': variablename,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Create a repo-level variable
+     * @returns any response when creating a repo-level variable
+     * @throws ApiError
+     */
+    public createRepoVariable({
+        owner,
+        repo,
+        variablename,
+        body,
+    }: {
+        /**
+         * name of the owner
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+        body?: CreateVariableOption,
+    }): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/actions/variables/{variablename}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'variablename': variablename,
+            },
+            body: body,
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete a repo-level variable
+     * @returns ActionVariable ActionVariable
+     * @returns any response when deleting a variable
+     * @throws ApiError
+     */
+    public deleteRepoVariable({
+        owner,
+        repo,
+        variablename,
+    }: {
+        /**
+         * name of the owner
+         */
+        owner: string,
+        /**
+         * name of the repository
+         */
+        repo: string,
+        /**
+         * name of the variable
+         */
+        variablename: string,
+    }): CancelablePromise<ActionVariable | any> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/actions/variables/{variablename}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'variablename': variablename,
+            },
+            errors: {
+                400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
     /**
      * List a repository's activity feeds
      * @returns Activity ActivityFeedsList
@@ -376,7 +728,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get an archive of a repository
      * @returns any success
@@ -413,7 +764,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Return all users that have write access and can be assigned to issues
      * @returns User UserList
@@ -439,9 +789,74 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
+    /**
+     * Update avatar
+     * @returns void
+     * @throws ApiError
+     */
+    public repoUpdateAvatar({
+        owner,
+        repo,
+        body,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        body?: UpdateRepoAvatarOption,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/repos/{owner}/{repo}/avatar',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Delete avatar
+     * @returns void
+     * @throws ApiError
+     */
+    public repoDeleteAvatar({
+        owner,
+        repo,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+    }): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/repos/{owner}/{repo}/avatar',
+            path: {
+                'owner': owner,
+                'repo': repo,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
     /**
      * List branch protections for a repository
      * @returns BranchProtection BranchProtectionList
@@ -469,7 +884,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Create a branch protections for a repository
      * @returns BranchProtection BranchProtection
@@ -502,10 +916,10 @@ export class RepositoryService {
                 403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Get a specific branch protection for the repository
      * @returns BranchProtection BranchProtection
@@ -542,7 +956,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a specific branch protection for the repository
      * @returns void
@@ -579,7 +992,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Edit a branch protections for a repository. Only fields that are set will be changed
      * @returns BranchProtection BranchProtection
@@ -617,10 +1029,10 @@ export class RepositoryService {
             errors: {
                 404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * List a repository's branches
      * @returns Branch BranchList
@@ -662,7 +1074,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Create a branch
      * @returns Branch Branch
@@ -695,10 +1106,10 @@ export class RepositoryService {
                 403: `The branch is archived or a mirror.`,
                 404: `The old branch does not exist.`,
                 409: `The branch with the same name already exists.`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Retrieve a specific branch from a repository, including its effective branch protection
      * @returns Branch Branch
@@ -735,7 +1146,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a specific branch from a repository
      * @returns void
@@ -770,10 +1180,10 @@ export class RepositoryService {
             errors: {
                 403: `APIError is error format response`,
                 404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * List a repository's collaborators
      * @returns User UserList
@@ -813,9 +1223,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Check if a user is a collaborator of a repository
      * @returns void
@@ -853,7 +1265,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Add a collaborator to a repository
      * @returns void
@@ -889,11 +1300,12 @@ export class RepositoryService {
             },
             body: body,
             errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Delete a collaborator from a repository
      * @returns void
@@ -926,11 +1338,11 @@ export class RepositoryService {
                 'collaborator': collaborator,
             },
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get repository permissions for a user
      * @returns RepoCollaboratorPermission RepoCollaboratorPermission
@@ -968,7 +1380,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a list of all commits from a repository
      * @returns Commit CommitList
@@ -1050,7 +1461,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a commit's combined status, by branch/tag/commit reference
      * @returns CombinedStatus CombinedStatus
@@ -1098,10 +1508,10 @@ export class RepositoryService {
             },
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get a commit's statuses, by branch/tag/commit reference
      * @returns CommitStatus CommitStatusList
@@ -1161,10 +1571,82 @@ export class RepositoryService {
             },
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
+    /**
+     * Get the pull request of the commit
+     * @returns PullRequest PullRequest
+     * @throws ApiError
+     */
+    public repoGetCommitPullRequest({
+        owner,
+        repo,
+        sha,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * SHA of the commit to get
+         */
+        sha: string,
+    }): CancelablePromise<PullRequest> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/commits/{sha}/pull',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'sha': sha,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
+    /**
+     * Get commit comparison information
+     * @returns Compare
+     * @throws ApiError
+     */
+    public repoCompareDiff({
+        owner,
+        repo,
+        basehead,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * compare two branches or commits
+         */
+        basehead: string,
+    }): CancelablePromise<Compare> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/compare/{basehead}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'basehead': basehead,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
     /**
      * Gets the metadata of all the entries of the root dir
      * @returns ContentsResponse ContentsListResponse
@@ -1203,7 +1685,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Modify multiple files in a repository
      * @returns FilesResponse FilesResponse
@@ -1236,10 +1717,10 @@ export class RepositoryService {
                 403: `APIError is error format response`,
                 404: `APINotFound is a not found empty response`,
                 422: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Gets the metadata and contents (if a file) of an entry in a repository, or a list of entries if a dir
      * @returns ContentsResponse ContentsResponse
@@ -1284,7 +1765,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Update a file in a repository
      * @returns FileResponse FileResponse
@@ -1323,10 +1803,10 @@ export class RepositoryService {
                 403: `APIError is error format response`,
                 404: `APINotFound is a not found empty response`,
                 422: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Create a file in a repository
      * @returns FileResponse FileResponse
@@ -1365,10 +1845,10 @@ export class RepositoryService {
                 403: `APIError is error format response`,
                 404: `APINotFound is a not found empty response`,
                 422: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Delete a file in a repository
      * @returns FileDeleteResponse FileDeleteResponse
@@ -1407,10 +1887,10 @@ export class RepositoryService {
                 400: `APIError is error format response`,
                 403: `APIError is error format response`,
                 404: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Apply diff patch to repository
      * @returns FileResponse FileResponse
@@ -1439,9 +1919,12 @@ export class RepositoryService {
                 'repo': repo,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
+            },
         });
     }
-
     /**
      * Get the EditorConfig definitions of a file in a repository
      * @returns any success
@@ -1486,7 +1969,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * List a repository's forks
      * @returns Repository RepositoryList
@@ -1526,9 +2008,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Fork a repository
      * @returns Repository Repository
@@ -1559,12 +2043,12 @@ export class RepositoryService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 409: `The repository with the same name already exists.`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Gets the blob of a repository.
      * @returns GitBlobResponse GitBlobResponse
@@ -1598,10 +2082,10 @@ export class RepositoryService {
             },
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get a single commit from a repository
      * @returns Commit Commit
@@ -1659,7 +2143,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a commit's diff or patch
      * @returns string APIString is a string response
@@ -1702,7 +2185,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a note corresponding to a single commit from a repository
      * @returns Note Note
@@ -1712,6 +2194,8 @@ export class RepositoryService {
         owner,
         repo,
         sha,
+        verification,
+        files,
     }: {
         /**
          * owner of the repo
@@ -1725,6 +2209,14 @@ export class RepositoryService {
          * a git ref or commit sha
          */
         sha: string,
+        /**
+         * include verification for every commit (disable for speedup, default 'true')
+         */
+        verification?: boolean,
+        /**
+         * include a list of affected files for every commit (disable for speedup, default 'true')
+         */
+        files?: boolean,
     }): CancelablePromise<Note> {
         return this.httpRequest.request({
             method: 'GET',
@@ -1734,13 +2226,16 @@ export class RepositoryService {
                 'repo': repo,
                 'sha': sha,
             },
+            query: {
+                'verification': verification,
+                'files': files,
+            },
             errors: {
                 404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get specified ref or filtered repository's refs
      * @returns Reference ReferenceList
@@ -1771,7 +2266,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get specified ref or filtered repository's refs
      * @returns Reference ReferenceList
@@ -1808,7 +2302,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Gets the tag object of an annotated tag (not lightweight tags)
      * @returns AnnotatedTag AnnotatedTag
@@ -1842,10 +2335,10 @@ export class RepositoryService {
             },
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Gets the tree of a repository.
      * @returns GitTreeResponse GitTreeResponse
@@ -1899,10 +2392,10 @@ export class RepositoryService {
             },
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * List the hooks in a repository
      * @returns Hook HookList
@@ -1942,9 +2435,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a hook
      * @returns Hook Hook
@@ -1973,9 +2468,11 @@ export class RepositoryService {
                 'repo': repo,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List the Git hooks in a repository
      * @returns GitHook GitHookList
@@ -2001,9 +2498,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a Git hook
      * @returns GitHook GitHook
@@ -2040,7 +2539,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a Git hook in a repository
      * @returns void
@@ -2077,7 +2575,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Edit a Git hook in a repository
      * @returns GitHook GitHook
@@ -2117,7 +2614,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a hook
      * @returns Hook Hook
@@ -2154,7 +2650,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a hook in a repository
      * @returns void
@@ -2191,7 +2686,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Edit a hook in a repository
      * @returns Hook Hook
@@ -2226,9 +2720,11 @@ export class RepositoryService {
                 'id': id,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Test a push webhook
      * @returns void
@@ -2268,9 +2764,11 @@ export class RepositoryService {
             query: {
                 'ref': ref,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Returns the issue config for a repo
      * @returns IssueConfig RepoIssueConfig
@@ -2296,9 +2794,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Returns the validation information for a issue config
      * @returns IssueConfigValidation RepoIssueConfigValidation
@@ -2324,9 +2824,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get available issue templates for a repository
      * @returns IssueTemplate IssueTemplates
@@ -2352,9 +2854,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a repo's pinned issues
      * @returns Issue IssueList
@@ -2380,9 +2884,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a repository's keys
      * @returns DeployKey DeployKeyList
@@ -2434,9 +2940,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Add a key to a repository
      * @returns DeployKey DeployKey
@@ -2466,11 +2974,11 @@ export class RepositoryService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get a repository's key by id
      * @returns DeployKey DeployKey
@@ -2502,9 +3010,11 @@ export class RepositoryService {
                 'repo': repo,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a key from a repository
      * @returns void
@@ -2538,10 +3048,10 @@ export class RepositoryService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get languages and number of bytes of code written
      * @returns number LanguageStatistics
@@ -2572,7 +3082,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a file or it's LFS object from a repository
      * @returns any Returns raw file content.
@@ -2617,7 +3126,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Sync a mirrored repository
      * @returns any APIEmpty is an empty response
@@ -2645,10 +3153,10 @@ export class RepositoryService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Returns if new Issue Pins are allowed
      * @returns NewIssuePinsAllowed RepoNewIssuePinsAllowed
@@ -2674,9 +3182,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a repo's pull requests
      * @returns PullRequest PullRequestList
@@ -2740,9 +3250,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a pull request
      * @returns PullRequest PullRequest
@@ -2772,12 +3284,14 @@ export class RepositoryService {
             },
             body: body,
             errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 409: `APIError is error format response`,
                 422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * List a repo's pinned pull requests
      * @returns PullRequest PullRequestList
@@ -2803,9 +3317,53 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
+    /**
+     * Get a pull request by base and head
+     * @returns PullRequest PullRequest
+     * @throws ApiError
+     */
+    public repoGetPullRequestByBaseHead({
+        owner,
+        repo,
+        base,
+        head,
+    }: {
+        /**
+         * owner of the repo
+         */
+        owner: string,
+        /**
+         * name of the repo
+         */
+        repo: string,
+        /**
+         * base of the pull request to get
+         */
+        base: string,
+        /**
+         * head of the pull request to get
+         */
+        head: string,
+    }): CancelablePromise<PullRequest> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/repos/{owner}/{repo}/pulls/{base}/{head}',
+            path: {
+                'owner': owner,
+                'repo': repo,
+                'base': base,
+                'head': head,
+            },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
+        });
+    }
     /**
      * Get a pull request
      * @returns PullRequest PullRequest
@@ -2842,7 +3400,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Update a pull request. If using deadline only the date will be taken into account, and time of day ignored.
      * @returns PullRequest PullRequest
@@ -2879,13 +3436,13 @@ export class RepositoryService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 409: `APIError is error format response`,
                 412: `APIError is error format response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get a pull request diff or patch
      * @returns string APIString is a string response
@@ -2936,7 +3493,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get commits for a pull request
      * @returns Commit CommitList
@@ -2948,6 +3504,8 @@ export class RepositoryService {
         index,
         page,
         limit,
+        verification,
+        files,
     }: {
         /**
          * owner of the repo
@@ -2969,6 +3527,14 @@ export class RepositoryService {
          * page size of results
          */
         limit?: number,
+        /**
+         * include verification for every commit (disable for speedup, default 'true')
+         */
+        verification?: boolean,
+        /**
+         * include a list of affected files for every commit (disable for speedup, default 'true')
+         */
+        files?: boolean,
     }): CancelablePromise<Array<Commit>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -2981,13 +3547,14 @@ export class RepositoryService {
             query: {
                 'page': page,
                 'limit': limit,
+                'verification': verification,
+                'files': files,
             },
             errors: {
                 404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get changed files for a pull request
      * @returns ChangedFile ChangedFileList
@@ -3050,7 +3617,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Check if a pull request has been merged
      * @returns void
@@ -3087,7 +3653,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Merge a pull request
      * @returns any APIEmpty is an empty response
@@ -3123,12 +3688,13 @@ export class RepositoryService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 405: `APIEmpty is an empty response`,
                 409: `APIError is error format response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Cancel the scheduled auto merge for the given pull request
      * @returns void
@@ -3163,10 +3729,10 @@ export class RepositoryService {
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * create review requests for a pull request
      * @returns PullReview PullReviewList
@@ -3207,7 +3773,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * cancel review requests for a pull request
      * @returns void
@@ -3243,12 +3808,12 @@ export class RepositoryService {
             },
             body: body,
             errors: {
+                403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * List all reviews for a pull request
      * @returns PullReview PullReviewList
@@ -3299,7 +3864,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Create a review to an pull request
      * @returns PullReview PullReview
@@ -3340,7 +3904,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a specific review for a pull request
      * @returns PullReview PullReview
@@ -3383,7 +3946,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Submit a pending review to an pull request
      * @returns PullReview PullReview
@@ -3430,7 +3992,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a specific review from a pull request
      * @returns void
@@ -3474,7 +4035,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a specific review for a pull request
      * @returns PullReviewComment PullCommentList
@@ -3517,7 +4077,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Dismiss a review for a pull request
      * @returns PullReview PullReview
@@ -3560,11 +4119,11 @@ export class RepositoryService {
             body: body,
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Cancel to dismiss a review for a pull request
      * @returns PullReview PullReview
@@ -3604,11 +4163,11 @@ export class RepositoryService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Merge PR's baseBranch into headBranch
      * @returns any APIEmpty is an empty response
@@ -3656,7 +4215,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get all push mirrors of the repository
      * @returns PushMirror PushMirrorList
@@ -3699,10 +4257,10 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * add a push mirror to the repository
      * @returns PushMirror PushMirror
@@ -3734,10 +4292,10 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Sync all push mirrored repository
      * @returns any APIEmpty is an empty response
@@ -3766,10 +4324,10 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get push mirror of the repository by remoteName
      * @returns PushMirror PushMirror
@@ -3804,10 +4362,10 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * deletes a push mirror from a repository by remoteName
      * @returns void
@@ -3845,7 +4403,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a file from a repository
      * @returns any Returns raw file content.
@@ -3890,7 +4447,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * List a repo's releases
      * @returns Release ReleaseList
@@ -3901,7 +4457,6 @@ export class RepositoryService {
         repo,
         draft,
         preRelease,
-        perPage,
         page,
         limit,
     }: {
@@ -3922,10 +4477,6 @@ export class RepositoryService {
          */
         preRelease?: boolean,
         /**
-         * page size of results, deprecated - use limit
-         */
-        perPage?: number,
-        /**
          * page number of results to return (1-based)
          */
         page?: number,
@@ -3944,13 +4495,14 @@ export class RepositoryService {
             query: {
                 'draft': draft,
                 'pre-release': preRelease,
-                'per_page': perPage,
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a release
      * @returns Release Release
@@ -3982,10 +4534,10 @@ export class RepositoryService {
             errors: {
                 404: `APINotFound is a not found empty response`,
                 409: `APIError is error format response`,
+                422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Gets the most recent non-prerelease, non-draft release of a repository, sorted by created_at
      * @returns Release Release
@@ -4016,7 +4568,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a release by tag name
      * @returns Release Release
@@ -4053,7 +4604,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a release by tag name
      * @returns void
@@ -4087,11 +4637,10 @@ export class RepositoryService {
             },
             errors: {
                 404: `APINotFound is a not found empty response`,
-                405: `APIEmpty is an empty response`,
+                422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Get a release
      * @returns Release Release
@@ -4128,7 +4677,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a release
      * @returns void
@@ -4162,11 +4710,10 @@ export class RepositoryService {
             },
             errors: {
                 404: `APINotFound is a not found empty response`,
-                405: `APIEmpty is an empty response`,
+                422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Update a release
      * @returns Release Release
@@ -4206,7 +4753,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * List release's attachments
      * @returns Attachment AttachmentList
@@ -4238,9 +4784,11 @@ export class RepositoryService {
                 'repo': repo,
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a release attachment
      * @returns Attachment Attachment
@@ -4250,8 +4798,8 @@ export class RepositoryService {
         owner,
         repo,
         id,
-        attachment,
         name,
+        attachment,
     }: {
         /**
          * owner of the repo
@@ -4266,13 +4814,13 @@ export class RepositoryService {
          */
         id: number,
         /**
-         * attachment to upload
-         */
-        attachment: Blob,
-        /**
          * name of the attachment
          */
         name?: string,
+        /**
+         * attachment to upload
+         */
+        attachment?: Blob,
     }): CancelablePromise<Attachment> {
         return this.httpRequest.request({
             method: 'POST',
@@ -4290,10 +4838,10 @@ export class RepositoryService {
             },
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get a release attachment
      * @returns Attachment Attachment
@@ -4331,9 +4879,11 @@ export class RepositoryService {
                 'id': id,
                 'attachment_id': attachmentId,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Delete a release attachment
      * @returns void
@@ -4371,9 +4921,11 @@ export class RepositoryService {
                 'id': id,
                 'attachment_id': attachmentId,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Edit a release attachment
      * @returns Attachment Attachment
@@ -4414,9 +4966,11 @@ export class RepositoryService {
                 'attachment_id': attachmentId,
             },
             body: body,
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Return all users that can be requested to review in this repo
      * @returns User UserList
@@ -4442,9 +4996,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get signing-key.gpg for given repository
      * @returns string GPG armored public key
@@ -4472,7 +5028,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * List a repo's stargazers
      * @returns User UserList
@@ -4512,9 +5067,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Get a commit's statuses
      * @returns CommitStatus CommitStatusList
@@ -4574,10 +5131,10 @@ export class RepositoryService {
             },
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Create a commit status
      * @returns CommitStatus CommitStatus
@@ -4614,10 +5171,10 @@ export class RepositoryService {
             body: body,
             errors: {
                 400: `APIError is error format response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * List a repo's watchers
      * @returns User UserList
@@ -4657,9 +5214,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Check if the current user is watching a repo
      * @returns WatchInfo WatchInfo
@@ -4690,7 +5249,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Watch a repo
      * @returns WatchInfo WatchInfo
@@ -4716,9 +5274,12 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Unwatch a repo
      * @returns void
@@ -4744,9 +5305,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * List a repository's tags
      * @returns Tag TagList
@@ -4786,9 +5349,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Create a new git tag in a repository
      * @returns Tag Tag
@@ -4821,10 +5386,11 @@ export class RepositoryService {
                 404: `APINotFound is a not found empty response`,
                 405: `APIEmpty is an empty response`,
                 409: `APIConflict is a conflict empty response`,
+                422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Get the tag of a repository by tag name
      * @returns Tag Tag
@@ -4861,7 +5427,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a repository's tag by name
      * @returns void
@@ -4897,10 +5462,11 @@ export class RepositoryService {
                 404: `APINotFound is a not found empty response`,
                 405: `APIEmpty is an empty response`,
                 409: `APIConflict is a conflict empty response`,
+                422: `APIValidationError is error format response related to input validation`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * List a repository's teams
      * @returns Team TeamList
@@ -4926,9 +5492,11 @@ export class RepositoryService {
                 'owner': owner,
                 'repo': repo,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Check if a team is assigned to a repository
      * @returns Team Team
@@ -4966,7 +5534,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Add a team to a repository
      * @returns void
@@ -4999,12 +5566,12 @@ export class RepositoryService {
                 'team': team,
             },
             errors: {
+                404: `APINotFound is a not found empty response`,
                 405: `APIError is error format response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * Delete a team from a repository
      * @returns void
@@ -5037,12 +5604,12 @@ export class RepositoryService {
                 'team': team,
             },
             errors: {
+                404: `APINotFound is a not found empty response`,
                 405: `APIError is error format response`,
                 422: `APIValidationError is error format response related to input validation`,
             },
         });
     }
-
     /**
      * List a repo's tracked times
      * @returns TrackedTime TrackedTimeList
@@ -5103,10 +5670,10 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * @deprecated
      * List a user's tracked times in a repo
@@ -5142,10 +5709,10 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Get list of topics that a repository has
      * @returns TopicName TopicNames
@@ -5185,9 +5752,11 @@ export class RepositoryService {
                 'page': page,
                 'limit': limit,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * Replace list of topics for a repository
      * @returns void
@@ -5217,11 +5786,11 @@ export class RepositoryService {
             },
             body: body,
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIInvalidTopicsError is error format response to invalid topics`,
             },
         });
     }
-
     /**
      * Add a topic to a repository
      * @returns void
@@ -5254,11 +5823,11 @@ export class RepositoryService {
                 'topic': topic,
             },
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIInvalidTopicsError is error format response to invalid topics`,
             },
         });
     }
-
     /**
      * Delete a topic from a repository
      * @returns void
@@ -5291,11 +5860,11 @@ export class RepositoryService {
                 'topic': topic,
             },
             errors: {
+                404: `APINotFound is a not found empty response`,
                 422: `APIInvalidTopicsError is error format response to invalid topics`,
             },
         });
     }
-
     /**
      * Transfer a repo ownership
      * @returns Repository Repository
@@ -5334,7 +5903,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Accept a repo transfer
      * @returns Repository Repository
@@ -5366,7 +5934,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Reject a repo transfer
      * @returns Repository Repository
@@ -5398,7 +5965,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Create a wiki page
      * @returns WikiPage WikiPage
@@ -5430,10 +5996,11 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Get a wiki page
      * @returns WikiPage WikiPage
@@ -5470,7 +6037,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Delete a wiki page
      * @returns void
@@ -5505,10 +6071,10 @@ export class RepositoryService {
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
                 404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Edit a wiki page
      * @returns WikiPage WikiPage
@@ -5546,10 +6112,11 @@ export class RepositoryService {
             errors: {
                 400: `APIError is error format response`,
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
+                423: `APIRepoArchivedError is an error that is raised when an archived repo should be modified`,
             },
         });
     }
-
     /**
      * Get all wiki pages
      * @returns WikiPageMetaData WikiPageList
@@ -5594,7 +6161,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get revisions of a wiki page
      * @returns WikiCommitList WikiCommitList
@@ -5639,7 +6205,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Create a repository using a template
      * @returns Repository Repository
@@ -5676,7 +6241,6 @@ export class RepositoryService {
             },
         });
     }
-
     /**
      * Get a repository by id
      * @returns Repository Repository
@@ -5696,9 +6260,11 @@ export class RepositoryService {
             path: {
                 'id': id,
             },
+            errors: {
+                404: `APINotFound is a not found empty response`,
+            },
         });
     }
-
     /**
      * search topics via keyword
      * @returns TopicResponse TopicListResponse
@@ -5732,10 +6298,10 @@ export class RepositoryService {
             },
             errors: {
                 403: `APIForbiddenError is a forbidden error response`,
+                404: `APINotFound is a not found empty response`,
             },
         });
     }
-
     /**
      * Create a repository
      * @returns Repository Repository
@@ -5757,5 +6323,4 @@ export class RepositoryService {
             },
         });
     }
-
 }

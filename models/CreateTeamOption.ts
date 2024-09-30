@@ -1,8 +1,7 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 /**
  * CreateTeamOption options for creating a team
  */
@@ -15,15 +14,11 @@ export type CreateTeamOption = {
     units?: Array<string>;
     units_map?: Record<string, string>;
 };
-
 export namespace CreateTeamOption {
-
     export enum permission {
         READ = 'read',
         WRITE = 'write',
         ADMIN = 'admin',
     }
-
-
 }
 
